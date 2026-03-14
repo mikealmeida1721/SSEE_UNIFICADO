@@ -1,1 +1,3 @@
 SSEE_LEGACY_BACKUP/
+__pycache__/
+*.pyc
