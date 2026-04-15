@@ -533,6 +533,17 @@
                     }
                     updateRegisterCard();
                 });
+                // Touch swipe support for register panel
+                let _pTouchY = 0;
+                panel.addEventListener('touchstart', (e) => { _pTouchY = e.touches[0].clientY; }, { passive: true });
+                panel.addEventListener('touchend', (e) => {
+                    const dy = _pTouchY - e.changedTouches[0].clientY;
+                    if (Math.abs(dy) > 30) {
+                        if (dy > 0) { currentRegIndex++; if (currentRegIndex > 39) currentRegIndex = 31; }
+                        else { currentRegIndex--; if (currentRegIndex < 31) currentRegIndex = 39; }
+                        updateRegisterCard();
+                    }
+                }, { passive: true });
                 const term = document.getElementById('terminal-output');
                 if (term) term.innerHTML += '\n>>> CONNECTED TO CORE.\n>>> ACCESSING 9 YGG REGISTERS...';
             }
@@ -598,8 +609,9 @@
             onResize();
             animate();
 
-            // Events
+            // Events (mouse + touch)
             container.addEventListener('mousemove', onHover);
+            container.addEventListener('touchstart', onTap, { passive: true });
 
             // --- HELPER FUNCTIONS INNER SCOPE ---
 
@@ -626,10 +638,11 @@
             const raycaster = new THREE.Raycaster();
             const mouse = new THREE.Vector2();
 
-            function onHover(e) {
+            // Core raycasting logic — shared by mouse hover and touch tap
+            function doRaycast(clientX, clientY) {
                 const rect = container.getBoundingClientRect();
-                mouse.x = ((e.clientX - rect.left) / container.clientWidth) * 2 - 1;
-                mouse.y = -((e.clientY - rect.top) / container.clientHeight) * 2 + 1;
+                mouse.x = ((clientX - rect.left) / container.clientWidth) * 2 - 1;
+                mouse.y = -((clientY - rect.top) / container.clientHeight) * 2 + 1;
                 raycaster.setFromCamera(mouse, camera);
 
                 const ints = raycaster.intersectObjects(clickObjects);
@@ -638,13 +651,9 @@
                 if (ints.length > 0) {
                     const hitObj = ints[0].object;
                     const id = hitObj.userData.id;
-
                     if (hovered !== id) {
-                        // Dim Previous
                         clickObjects.forEach(o => { o.material.emissiveIntensity = 0; });
                         hovered = id;
-
-                        // Highlight Group
                         let glowColorHex = "ffffff";
                         clickObjects.forEach(o => {
                             if (o.userData.id === id) {
@@ -654,8 +663,6 @@
                                 else if (g && g.getHexString) glowColorHex = g.getHexString();
                             }
                         });
-
-                        // UPDATE UI
                         if (statusEl) {
                             statusEl.innerHTML = `CONSTANTE: <span style="color:#${glowColorHex}; text-shadow: 0 0 10px #${glowColorHex}">${id}</span>`;
                             statusEl.style.opacity = '1';
@@ -664,12 +671,18 @@
                 } else {
                     if (hovered) {
                         clickObjects.forEach(o => o.material.emissiveIntensity = 0);
+                        hovered = null;
                         if (statusEl) {
-                            statusEl.innerText = TEXTS[currentLang]["ygg_wait"];
+                            statusEl.innerText = 'ESPERANDO INTERACCIÓN...';
                             statusEl.style.opacity = '0.5';
                         }
                     }
                 }
+            }
+
+            function onHover(e) { doRaycast(e.clientX, e.clientY); }
+            function onTap(e) {
+                if (e.touches && e.touches.length > 0) doRaycast(e.touches[0].clientX, e.touches[0].clientY);
             }
 
             // YGG FULLSCREEN TOGGLE
@@ -1657,7 +1670,13 @@
 
             else if (id === 'res8') {
                 title = 'VIII. LA OCTAVA DE LA MATERIA SSEE';
-                desc = `<h3 class="font-bold mb-2 text-stone-900 dark:text-white">1. LOS 8 ESTADOS(Burbuja Trial)</h3>
+                desc = `<div class="border-l-2 border-stone-500 pl-4 mb-6">
+                            <div class="text-sm font-bold text-stone-600 dark:text-stone-400 uppercase tracking-widest mb-2">REGISTRO MAESTRO SSEE — OCTAVA MATERIAL</div>
+                            <div class="mt-3 p-3 bg-stone-50 dark:bg-stone-800/50 rounded border-l-4 border-stone-400 italic text-sm text-stone-600 dark:text-stone-300">
+                                <strong>💡 Lógica Usable:</strong> Imagina que la realidad tiene 8 "velocidades", como las marchas de un coche. El hielo (sólido) está en primera; el agua en tercera; el vapor en quinta; el plasma solar en séptima. SSEE mide en qué "marcha" estás vibrando para darte instrucciones precisas de cómo subir de nivel sin que el motor explote.
+                            </div>
+                        </div>
+                        <h3 class="font-bold mb-2 text-stone-900 dark:text-white">1. LOS 8 ESTADOS (Burbuja Trial)</h3>
                         <p class="mb-4 text-stone-600 dark:text-stone-400 text-sm">Descomposición técnica por frecuencia ascendente: del orden absoluto al caos de saturación.</p>
                         
                         <div class="overflow-hidden rounded-xl border border-stone-200 dark:border-stone-800 shadow-sm mb-6">
@@ -1879,7 +1898,29 @@
         }
 
         // CHARTS
-        function getCommonOpts() { return { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: true } } }; }
+        function getCommonOpts() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const tc = isDark ? '#78716c' : '#a8a29e';
+            const gc = isDark ? '#292524' : '#f5f5f4';
+            return {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: isDark ? '#1c1917' : '#fff',
+                        titleColor: isDark ? '#e7e5e4' : '#292524',
+                        bodyColor: isDark ? '#a8a29e' : '#57534e',
+                        borderColor: isDark ? '#44403c' : '#e7e5e4',
+                        borderWidth: 1, padding: 10, cornerRadius: 6,
+                        titleFont: { weight: 'bold', size: 11 }, bodyFont: { size: 11 }
+                    }
+                },
+                scales: {
+                    x: { display: true, ticks: { color: tc, font: { size: 10 }, maxRotation: 35, autoSkip: true, maxTicksLimit: 10 }, grid: { display: false } },
+                    y: { display: true, ticks: { color: tc, font: { size: 10 } }, grid: { color: gc } }
+                }
+            };
+        }
         function initChart(id) {
             const C = SSEE.C;
             const ctxId = id === 'res2' ? 'chartParticles' : (id === 'res1' ? 'chartHubble' : (id === 'res3' ? 'chartOptics' : (id === 'res4' ? 'chartChem' : (id === 'res5' ? 'chartMed' : (id === 'res6' ? 'chartPhil' : (id === 'res8' ? 'chartStates' : 'chartPeace'))))));
@@ -1889,124 +1930,210 @@
 
             let type = 'bar', data = {}, opts = getCommonOpts();
 
+            const isDark = document.documentElement.classList.contains('dark');
+
             if (id === 'res1') {
-                const base = 67.9621; // SSEE Global
-                const local = 73.4835; // SSEE Local (Base + KAL)
+                // Cosmología: comparación H₀ — oficial vs SSEE
+                const base = 67.9621, local = 73.4835;
                 data = {
-                    labels: ['Planck (67.4)', 'SSEE Global (67.96)', 'SSEE Local (73.48)', 'Riess (73.5)'],
+                    labels: ['Planck\n(Oficial)', 'SSEE Global\n(SSEE)', 'SSEE Local\n(SSEE)', 'Riess\n(Oficial)'],
                     datasets: [{
                         data: [67.4, base, local, 73.5],
-                        backgroundColor: ['#d6d3d1', '#0ea5e9', '#d97706', '#d6d3d1'],
-                        borderRadius: 4
+                        backgroundColor: ['#a8a29e', '#0ea5e9', '#d97706', '#a8a29e'],
+                        borderColor: ['transparent', '#38bdf8', '#f59e0b', 'transparent'],
+                        borderWidth: [0, 2, 2, 0], borderRadius: 6
                     }]
                 };
                 opts.scales.y.min = 60; opts.scales.y.max = 80;
+                opts.plugins.tooltip.callbacks = {
+                    label: ctx => {
+                        const notes = ['Medición Planck (CMB)', 'SSEE: (MIKA+π)×Ω', 'SSEE: Global + KAL', 'Medición Riess (Cefeidas)'];
+                        return ` ${ctx.parsed.y.toFixed(3)} km/s/Mpc — ${notes[ctx.dataIndex]}`;
+                    }
+                };
             }
             else if (id === 'res2') {
+                // Partículas: simetría alrededor de -3.000
                 type = 'scatter';
                 data = {
                     datasets: [
-                        { label: 'Protón', data: [{ x: 1, y: -2.985 }], backgroundColor: '#f43f5e', pointRadius: 8 },
-                        { label: 'Pensamiento', data: [{ x: 2, y: -3.000 }], backgroundColor: '#a8a29e', pointRadius: 6, pointStyle: 'rectRot' },
-                        { label: 'Electrón', data: [{ x: 3, y: -3.015 }], backgroundColor: '#3b82f6', pointRadius: 8 }
+                        { label: 'Protón (0.319)', data: [{ x: 1, y: -2.985 }], backgroundColor: '#f43f5e', pointRadius: 10, pointHoverRadius: 13 },
+                        { label: 'Pensamiento (Centro)', data: [{ x: 2, y: -3.000 }], backgroundColor: '#f5f5f4', pointRadius: 7, pointStyle: 'rectRot', pointHoverRadius: 10 },
+                        { label: 'Electrón (0.349)', data: [{ x: 3, y: -3.015 }], backgroundColor: '#3b82f6', pointRadius: 10, pointHoverRadius: 13 },
+                        { label: 'Eje -3.000', data: [{ x: 0.3, y: -3 }, { x: 3.7, y: -3 }], type: 'line',
+                          borderColor: isDark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.15)',
+                          borderDash: [5, 5], borderWidth: 1, pointRadius: 0, fill: false }
                     ]
                 };
-                const isDark = document.documentElement.classList.contains('dark');
-                opts.plugins.title = {
-                    display: true,
-                    text: 'Simetría de Información (Eje -3.000)',
-                    color: isDark ? '#e5e5e5' : '#1c1917',
-                    font: { family: 'serif', size: 14, weight: 'bold' }
-                };
-                opts.scales.x = { display: false, min: 0.5, max: 3.5 };
-                opts.scales.y = {
-                    min: -3.03, max: -2.97,
-                    grid: { color: isDark ? '#44403c' : '#e5e7eb' }
-                };
+                opts.plugins.legend = { display: true, position: 'bottom', labels: { color: isDark ? '#a8a29e' : '#78716c', boxWidth: 10, font: { size: 10 } } };
+                opts.plugins.title = { display: true, text: 'Simetría de Información — Eje -3.000', color: isDark ? '#e5e5e5' : '#1c1917', font: { family: 'serif', size: 13, weight: 'bold' } };
+                opts.scales.x = { display: false, min: 0.3, max: 3.7 };
+                opts.scales.y = { min: -3.035, max: -2.965, ticks: { color: isDark ? '#78716c' : '#a8a29e', font: { size: 10 } }, grid: { color: isDark ? '#292524' : '#f5f5f4' } };
             }
             else if (id === 'res3') {
+                // Óptica: del pensamiento a la luz
                 type = 'line';
-                data = { labels: ['Pensamiento', 'Aura', 'Luz Visible'], datasets: [{ data: [-3, 0.399, 0.400], borderColor: '#9333ea', backgroundColor: 'rgba(147, 51, 234, 0.1)', fill: true }] };
+                data = {
+                    labels: ['Pensamiento\n(-3.000)', 'AURA\n(3.998)', 'Luz Visible\n(~400nm)'],
+                    datasets: [{
+                        data: [-3, 0.399, 0.400],
+                        borderColor: '#9333ea', borderWidth: 2,
+                        backgroundColor: ctx => {
+                            const { ctx: c, chartArea } = ctx.chart;
+                            if (!chartArea) return 'rgba(147,51,234,0.1)';
+                            const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                            g.addColorStop(0, 'rgba(147,51,234,0.3)'); g.addColorStop(1, 'rgba(147,51,234,0)');
+                            return g;
+                        },
+                        fill: true, tension: 0.4,
+                        pointBackgroundColor: ['#6366f1', '#a855f7', '#e879f9'],
+                        pointRadius: [7, 7, 7], pointHoverRadius: 10
+                    }]
+                };
+                opts.plugins.tooltip.callbacks = {
+                    label: ctx => {
+                        const info = ['El pensamiento antes de materializarse', 'Límite del campo energético personal', 'Umbral de visibilidad consciente'];
+                        return ` ${ctx.parsed.y} — ${info[ctx.dataIndex]}`;
+                    }
+                };
             }
             else if (id === 'res4') {
-                data = { labels: ['IGNIS', 'KRYSTOS'], datasets: [{ data: [C.IGNIS, C.KRYSTOS], backgroundColor: ['#f43f5e', '#0ea5e9'], borderRadius: 4 }] };
-                opts.scales.y.min = 9; opts.scales.y.max = 10;
+                // Química: escala SSEE completa para dar contexto a la identidad IGNIS=KRYSTOS
+                data = {
+                    labels: ['BIAL\n(Pulso)', 'AURA\n(Campo)', 'VITA\n(Vida)', 'IGNIS\n= KRYSTOS', 'MIKAEL_V\n(Soberanía)'],
+                    datasets: [{
+                        data: [C.BIAL, C.AURA, C.VITA, C.IGNIS, C.MIKAEL_V],
+                        backgroundColor: ['#fbbf24', '#22d3ee', '#4ade80', '#f43f5e', '#f59e0b'],
+                        borderColor: ['#d97706', '#0891b2', '#16a34a', '#dc2626', '#d97706'],
+                        borderWidth: 1, borderRadius: 6
+                    }]
+                };
+                opts.scales.y.min = 0;
+                opts.plugins.tooltip.callbacks = {
+                    label: ctx => {
+                        const notes = ['(Φ+π)/2 — Frecuencia base', 'Φ+BIAL — Campo personal', 'π+KAL — Constante vital', 'π+PYROS = Φ+π+Ω — Identidad química', 'Φ+π+KRYSTOS — Cima soberana'];
+                        return ` ${ctx.parsed.y.toFixed(6)} — ${notes[ctx.dataIndex]}`;
+                    }
+                };
             }
             else if (id === 'res5') {
-                data = { labels: ['SOLAR', 'VITA'], datasets: [{ data: [C.SOLAR, C.VITA], backgroundColor: ['#f59e0b', '#10b981'], borderRadius: 4 }] };
-                opts.scales.y.min = 7; opts.scales.y.max = 9;
+                // Medicina: frecuencias biológicas SSEE
+                data = {
+                    labels: ['BIAL\n(Pulso)', 'AURA\n(Campo)', 'SOLAR\n(Vitalidad)', 'VITA\n(ADN)', 'KRYSTOS\n(Cristal)'],
+                    datasets: [{
+                        data: [C.BIAL, C.AURA, C.SOLAR, C.VITA, C.KRYSTOS],
+                        backgroundColor: ['#fcd34d', '#6ee7b7', '#fbbf24', '#34d399', '#38bdf8'],
+                        borderColor: ['#f59e0b', '#10b981', '#d97706', '#059669', '#0284c7'],
+                        borderWidth: 1, borderRadius: 6
+                    }]
+                };
+                opts.scales.y.min = 0;
+                opts.plugins.tooltip.callbacks = {
+                    label: ctx => {
+                        const notes = ['Calor vital base', 'Campo Áurico personal', 'Frecuencia solar/plasma', 'Base genética ADN-SSEE', 'Orden cristalino celular'];
+                        return ` ${ctx.parsed.y.toFixed(6)} — ${notes[ctx.dataIndex]}`;
+                    }
+                };
             }
             else if (id === 'res6') {
+                // Filosofía: escalera de consciencia
                 type = 'line';
-                data = { labels: ['Ego (5)', 'Opinión (8)', 'Humildad (10)', 'Verdad (11.1)'], datasets: [{ data: [5, 8, 10, C.MIKA], borderColor: '#9333ea', tension: 0.3, fill: true }] };
+                const levels = [
+                    { l: 'Ego\n(5)', v: 5, c: '#ef4444' },
+                    { l: 'Opinión\n(8)', v: 8, c: '#f97316' },
+                    { l: 'Humildad\n(10)', v: 10, c: '#eab308' },
+                    { l: 'Verdad\n(MIKA)', v: C.MIKA, c: '#8b5cf6' }
+                ];
+                data = {
+                    labels: levels.map(l => l.l),
+                    datasets: [{
+                        data: levels.map(l => l.v),
+                        borderColor: '#9333ea', borderWidth: 2, tension: 0.3,
+                        backgroundColor: ctx => {
+                            const { ctx: c, chartArea } = ctx.chart;
+                            if (!chartArea) return 'rgba(147,51,234,0.15)';
+                            const g = c.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+                            g.addColorStop(0, 'rgba(139,92,246,0.5)'); g.addColorStop(1, 'rgba(239,68,68,0.05)');
+                            return g;
+                        },
+                        fill: true,
+                        pointBackgroundColor: levels.map(l => l.c),
+                        pointRadius: [7, 7, 7, 10], pointHoverRadius: 12,
+                        pointStyle: ['circle', 'circle', 'circle', 'star']
+                    }]
+                };
+                opts.plugins.tooltip.callbacks = {
+                    label: ctx => {
+                        const notes = ['Ruido del ego (caos)', 'Pensamiento no verificado', 'Apertura al aprendizaje', `Verdad 5D (MIKA = ${C.MIKA.toFixed(6)})`];
+                        return ` ${ctx.parsed.y.toFixed(3)} — ${notes[ctx.dataIndex]}`;
+                    }
+                };
             }
             else if (id === 'res7') {
+                // Paz: buffer de soberanía sobre la materia
                 const buf = C.MIKAEL_V - C.TRIAL;
-                data = { labels: ['Materia', 'Soberano'], datasets: [{ label: 'Carga', data: [C.TRIAL, C.TRIAL], backgroundColor: '#78716c', stack: '0' }, { label: 'Buffer', data: [0, buf], backgroundColor: '#d97706', stack: '0' }] };
+                data = {
+                    labels: ['Límite Material\n(TRIAL)', 'Soberanía Activa\n(MIKÆL-V)'],
+                    datasets: [
+                        { label: 'Carga Material (TRIAL)', data: [C.TRIAL, C.TRIAL], backgroundColor: isDark ? '#78716c' : '#a8a29e', borderRadius: 6, stack: '0' },
+                        { label: `Buffer de Paz (+${buf.toFixed(3)})`, data: [0, buf], backgroundColor: '#d97706', borderRadius: 6, stack: '0' }
+                    ]
+                };
+                opts.plugins.legend = { display: true, position: 'bottom', labels: { color: isDark ? '#a8a29e' : '#78716c', boxWidth: 10, font: { size: 10 } } };
+                opts.plugins.tooltip.callbacks = {
+                    label: ctx => {
+                        if (ctx.datasetIndex === 0) return ` TRIAL: ${C.TRIAL.toFixed(3)} — Límite 3D de la materia`;
+                        return ` Buffer: ${buf.toFixed(6)} — Energía de soberanía / "Energía Oscura"`;
+                    }
+                };
             }
             else if (id === 'res8') {
+                // Octava: estados de la materia según frecuencia SSEE
                 type = 'line';
                 const AURA = C.AURA;
-
-                // Unified Data: States (Matter) + Structure (Geometry)
-                // Ordered by Frequency Value
                 const points = [
                     { l: 'BEC', v: 0.1, c: '#e0f2fe', type: 'state' },
                     { l: 'Fermión', v: 2.379, c: '#bae6fd', type: 'state' },
                     { l: 'Sólido', v: 3.141, c: '#38bdf8', type: 'state' },
-                    { l: 'AURA (x1)', v: AURA, c: '#a855f7', type: 'struct' }, // ~3.99
+                    { l: 'AURA×1', v: AURA, c: '#a855f7', type: 'struct' },
                     { l: 'Líquido', v: 4.759, c: '#60a5fa', type: 'state' },
                     { l: 'Gaseoso', v: 6.377, c: '#fbbf24', type: 'state' },
                     { l: 'Plasma', v: 7.901, c: '#f97316', type: 'state' },
-                    { l: 'DUAL (x2)', v: AURA * 2, c: '#ef4444', type: 'struct' }, // ~7.99
+                    { l: 'AURA×2', v: AURA * 2, c: '#ef4444', type: 'struct' },
                     { l: 'M.Degen', v: 8.662, c: '#f43f5e', type: 'state' },
-                    { l: 'QGP (Trial)', v: 11.993, c: '#7f1d1d', type: 'merge' }, // ~11.99 (State + Structure x3)
-                    { l: 'CUARTAL (x4)', v: AURA * 4, c: '#f59e0b', type: 'struct' } // ~15.99
+                    { l: 'QGP', v: 11.993, c: '#7f1d1d', type: 'merge' },
+                    { l: 'AURA×4', v: AURA * 4, c: '#f59e0b', type: 'struct' }
                 ];
-
                 data = {
                     labels: points.map(p => p.l),
                     datasets: [{
                         label: 'Frecuencia SSEE',
                         data: points.map(p => p.v),
-                        borderColor: '#94a3b8', // Neutral line
-                        borderWidth: 2,
-                        backgroundColor: (ctx) => {
-                            const chart = ctx.chart;
-                            const { ctx: c, chartArea } = chart;
+                        borderColor: '#94a3b8', borderWidth: 2,
+                        backgroundColor: ctx => {
+                            const { ctx: c, chartArea } = ctx.chart;
                             if (!chartArea) return null;
-                            const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-                            gradient.addColorStop(0, 'rgba(15, 23, 42, 0)');
-                            gradient.addColorStop(1, 'rgba(148, 163, 184, 0.1)');
-                            return gradient;
+                            const g = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                            g.addColorStop(0, 'rgba(15,23,42,0)'); g.addColorStop(1, 'rgba(148,163,184,0.12)');
+                            return g;
                         },
-                        fill: true,
-                        tension: 0.31416, // Curvatura PI
-                        cubicInterpolationMode: 'monotone',
+                        fill: true, tension: 0.31416, cubicInterpolationMode: 'monotone',
                         pointBackgroundColor: points.map(p => p.c),
-                        pointBorderColor: points.map(p => p.type === 'struct' ? '#fff' : (p.type === 'merge' ? '#fbbf24' : '#fff')),
-                        pointBorderWidth: points.map(p => p.type === 'struct' ? 2 : (p.type === 'merge' ? 3 : 1)),
-                        pointRadius: points.map(p => p.type === 'struct' ? 6 : (p.type === 'merge' ? 8 : 5)),
+                        pointBorderColor: points.map(p => p.type !== 'state' ? '#fff' : 'transparent'),
+                        pointBorderWidth: points.map(p => p.type !== 'state' ? 2 : 0),
+                        pointRadius: points.map(p => p.type === 'struct' ? 7 : (p.type === 'merge' ? 9 : 5)),
                         pointStyle: points.map(p => p.type === 'struct' ? 'rectRot' : (p.type === 'merge' ? 'star' : 'circle')),
-                        segment: {
-                            borderColor: ctx => {
-                                const p = points[ctx.p1DataIndex];
-                                return p ? p.c : '#94a3b8';
-                            }
-                        }
+                        segment: { borderColor: ctx => { const p = points[ctx.p1DataIndex]; return p ? p.c : '#94a3b8'; } }
                     }]
                 };
-
-                opts.scales.y = {
-                    min: 0, max: 17,
-                    grid: { color: document.documentElement.classList.contains('dark') ? '#44403c' : '#e5e7eb' }
-                };
-                opts.plugins.title = {
-                    display: true,
-                    text: 'INTEGRACIÓN: 8 ESTADOS vs ESCALA DIMENSIONAL',
-                    color: document.documentElement.classList.contains('dark') ? '#e5e5e5' : '#1c1917',
-                    font: { size: 14, weight: 'bold' },
-                    padding: { bottom: 20 }
+                opts.scales.y = { min: 0, max: 17, ticks: { color: isDark ? '#78716c' : '#a8a29e', font: { size: 10 } }, grid: { color: isDark ? '#44403c' : '#e5e7eb' } };
+                opts.plugins.title = { display: true, text: '8 ESTADOS DE LA MATERIA + ESCALA DIMENSIONAL SSEE', color: isDark ? '#e5e5e5' : '#1c1917', font: { size: 12, weight: 'bold' }, padding: { bottom: 16 } };
+                opts.plugins.tooltip.callbacks = {
+                    label: ctx => {
+                        const p = points[ctx.dataIndex];
+                        const typeLabel = p.type === 'struct' ? 'Escala SSEE (AURA)' : (p.type === 'merge' ? 'Límite 3D' : 'Estado de materia');
+                        return ` ${ctx.parsed.y.toFixed(3)} — ${typeLabel}`;
+                    }
                 };
             }
             else if (id === 'irreg') {
@@ -2097,7 +2224,29 @@
         }
 
         // CHARTS
-        function getCommonOpts() { return { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { display: false }, y: { display: true } } }; }
+        function getCommonOpts() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const tc = isDark ? '#78716c' : '#a8a29e';
+            const gc = isDark ? '#292524' : '#f5f5f4';
+            return {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        backgroundColor: isDark ? '#1c1917' : '#fff',
+                        titleColor: isDark ? '#e7e5e4' : '#292524',
+                        bodyColor: isDark ? '#a8a29e' : '#57534e',
+                        borderColor: isDark ? '#44403c' : '#e7e5e4',
+                        borderWidth: 1, padding: 10, cornerRadius: 6,
+                        titleFont: { weight: 'bold', size: 11 }, bodyFont: { size: 11 }
+                    }
+                },
+                scales: {
+                    x: { display: true, ticks: { color: tc, font: { size: 10 }, maxRotation: 35, autoSkip: true, maxTicksLimit: 10 }, grid: { display: false } },
+                    y: { display: true, ticks: { color: tc, font: { size: 10 } }, grid: { color: gc } }
+                }
+            };
+        }
         function initChart(id) {
             const C = SSEE.C;
             const ctxId = id === 'res2' ? 'chartParticles' : (id === 'res1' ? 'chartHubble' : (id === 'res3' ? 'chartOptics' : (id === 'res4' ? 'chartChem' : (id === 'res5' ? 'chartMed' : (id === 'res6' ? 'chartPhil' : (id === 'res8' ? 'chartStates' : 'chartPeace'))))));
@@ -3522,6 +3671,16 @@
             canvas.addEventListener('mousedown', e => { drag = true; mouse = { x: e.clientX, y: e.clientY } });
             window.addEventListener('mouseup', () => { setTimeout(() => drag = false, 50) }); // Small delay to prevent click trigger on drag release
             window.addEventListener('mousemove', e => { if (drag) { rot.x += (e.clientX - mouse.x) * 0.01; rot.y += (e.clientY - mouse.y) * 0.01; mouse = { x: e.clientX, y: e.clientY } } });
+            // Touch drag support
+            canvas.addEventListener('touchstart', e => { drag = true; mouse = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }, { passive: true });
+            canvas.addEventListener('touchend', () => { setTimeout(() => drag = false, 50); }, { passive: true });
+            canvas.addEventListener('touchmove', e => {
+                if (drag) {
+                    rot.x += (e.touches[0].clientX - mouse.x) * 0.01;
+                    rot.y += (e.touches[0].clientY - mouse.y) * 0.01;
+                    mouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+                }
+            }, { passive: true });
 
             // RAYCASTING / CLICK DETECTION FOR 3D NODES
             canvas.addEventListener('click', e => {
