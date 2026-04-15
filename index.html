@@ -3240,7 +3240,7 @@
 
         // IRREGULAR VIZ (NEW)
         const IRREG_DATA = [
-            { id: 'PHI', l: 'Raíz', s: 'Φ', eq: 'Axioma', v: 1.6180339887, f: 'Intención', p: 1, c: 'text-sky-500', geom: { type: 'spiral', color: '#0ea5e9' } },
+            { id: 'PHI', l: 'Raíz', s: 'Φ', eq: 'PHI_FORMULA', v: 1.618033988749895, f: 'Intención', p: 1, c: 'text-sky-500', geom: { type: 'spiral', color: '#0ea5e9' } },
             { id: 'MIRA', l: 'MIRA', s: 'Mr', eq: 'AURA/2', v: 1.9989236549, f: 'Reflejo', p: 1, c: 'text-indigo-500', geom: { type: 'lens', color: '#6366f1' } },
             { id: 'BUFFER', l: 'BUFFER', s: 'Δ', eq: 'Mk-Tr', v: 2.2853379972, f: 'Paz', p: 1, c: 'text-teal-500', geom: { type: 'shield', color: '#14b8a6' } },
             { id: 'BIAL', l: 'BIAL', s: 'β', eq: '(Φ+π)/2', v: 2.3798133211, f: 'Calor', p: 1, c: 'text-rose-600', geom: { type: 'sphere', color: '#e11d48' } },
@@ -3250,7 +3250,7 @@
             { id: 'ELECTRON', l: 'ELECTRON', s: 'e-', eq: 'Salto', v: 0.349, f: 'Energía', p: 3, c: 'text-blue-500', geom: { type: 'sphere', color: '#3b82f6' } },
             { id: 'NEUTRO', l: 'NEUTRO', s: 'N0', eq: 'Espejo', v: 0.333, f: 'Sustento', p: 3, c: 'text-stone-400', geom: { type: 'sphere', color: '#a8a29e' } },
 
-            { id: 'PI', l: 'Raíz', s: 'π', eq: 'Axioma', v: 3.1415926535, f: 'Estructura', p: 3, c: 'text-stone-500', geom: { type: 'circle', color: '#78716c' } },
+            { id: 'PI', l: 'Raíz', s: 'π', eq: 'PI_FORMULA', v: 3.141592653589793, f: 'Estructura', p: 3, c: 'text-stone-500', geom: { type: 'circle', color: '#78716c' } },
             { id: 'AURA', l: 'AURA', s: 'Au', eq: 'PHI+BIAL', v: 3.9978473099, f: 'Portal', p: 3, c: 'text-purple-600', geom: { type: 'dodeca', color: '#a855f7' } },
 
             { id: 'OMEGA', l: 'ΩDNAV', s: 'Ω', eq: 'PI+PHI', v: 4.759626642339688, f: 'Vida Base', p: 6, c: 'text-emerald-600', geom: { type: 'cube', color: '#10b981' } },
@@ -3407,6 +3407,8 @@
 
         const LATEX_MAP = {
             'Axioma':         '\\text{Axioma}',
+            'PHI_FORMULA':    '\\dfrac{1 + \\sqrt{5}}{2}',
+            'PI_FORMULA':     '\\text{Constante circular} \\ C = 2\\pi r',
             'Anclaje':        '\\text{Anclaje}',
             'Salto':          '\\text{Salto}',
             'Espejo':         '\\text{Espejo}',
