@@ -523,8 +523,8 @@
             const container = document.getElementById('canvas-container');
             if (!container) return;
 
-            // Scroll Logic for 9 YGG Registers (indices 31-39)
-            currentRegIndex = 31;
+            // Scroll Logic for 8 YGG Registers (indices 32-39)
+            currentRegIndex = 32;
             const panel = document.getElementById('register-panel');
             if (panel) {
                 updateRegisterCard();
@@ -532,10 +532,10 @@
                     e.preventDefault();
                     if (e.deltaY > 0) {
                         currentRegIndex++;
-                        if (currentRegIndex > 39) currentRegIndex = 31;
+                        if (currentRegIndex > 39) currentRegIndex = 32;
                     } else {
                         currentRegIndex--;
-                        if (currentRegIndex < 31) currentRegIndex = 39;
+                        if (currentRegIndex < 32) currentRegIndex = 39;
                     }
                     updateRegisterCard();
                 });
@@ -545,8 +545,8 @@
                 panel.addEventListener('touchend', (e) => {
                     const dy = _pTouchY - e.changedTouches[0].clientY;
                     if (Math.abs(dy) > 30) {
-                        if (dy > 0) { currentRegIndex++; if (currentRegIndex > 39) currentRegIndex = 31; }
-                        else { currentRegIndex--; if (currentRegIndex < 31) currentRegIndex = 39; }
+                        if (dy > 0) { currentRegIndex++; if (currentRegIndex > 39) currentRegIndex = 32; }
+                        else { currentRegIndex--; if (currentRegIndex < 32) currentRegIndex = 39; }
                         updateRegisterCard();
                     }
                 }, { passive: true });
@@ -3437,7 +3437,7 @@
 
             { id: 'CUARTAL', l: 'CUARTAL', s: 'Qt', eq: 'AURA*4', v: 15.9913892396, f: 'Tiempo 4D', p: 12, c: 'text-lime-500', geom: { type: 'tesseract', color: '#84cc16' } },
 
-            // --- 9 REGISTROS YGG SOBERANOS ---
+            // --- 8 REGISTROS YGG ---
             {
                 id: 'YGG_PROTON', l: 'Ygg Protón', s: 'Yp', eq: 'Est/BIAL=0.319', v: 0.319, f: 'VERITAS', p: 3, c: 'text-red-400', geom: { type: 'raiz', color: '#f87171' },
                 params: { estabilidad: 0.760, phi: 1.618, pi: 3.142, omega: 0.476, bial: 2.379, aura: 3.998 },
@@ -3479,7 +3479,8 @@
                     { name: 'M_G', op: 'Ω - Ygg', val: 4.758198754347 },
                     { name: 'Gen', op: 'Φ - Ygg', val: 1.616606100757 },
                     { name: 'Info', op: 'M_G - π', val: 1.616606100757 },
-                    { name: 'Gap', op: 'Gen - Info', val: 0.000000000001 }
+                    { name: 'Gap', op: 'Gen - Info', val: 0.000000000001 },
+                    { name: 'Omega', op: 'Gen + Info', val: 3.233212201513 }
                 ]
             },
             {
@@ -3490,7 +3491,8 @@
                     { name: 'M_G', op: 'Ω - Ygg', val: 4.748489355 },
                     { name: 'Gen', op: 'Φ - Ygg', val: 1.606896702 },
                     { name: 'Info', op: 'M_G - π', val: 1.606896701 },
-                    { name: 'Gap', op: 'Gen - Info', val: 0.000000001 }
+                    { name: 'Gap', op: 'Gen - Info', val: 0.000000001 },
+                    { name: 'Omega', op: 'Gen + Info', val: 3.213793403 }
                 ]
             },
             {
@@ -3506,18 +3508,19 @@
                 ]
             },
             {
-                id: 'YGG_AURA', l: 'Ygg Aura', s: 'Ya', eq: 'π/10+Fric', v: 0.334, f: 'ENERGÍA', p: 3, c: 'text-yellow-400', geom: { type: 'field', color: '#facc15' },
+                id: 'YGG_MIRA', l: 'Ygg MIRA', s: 'Ym', eq: 'π/10+Fric', v: 0.334, f: 'IRRADIACIÓN (π)', p: 3, c: 'text-yellow-400', geom: { type: 'field', color: '#facc15' },
                 params: { phi: 1.618, bial: 2.379, pi: 3.142, omega: 0.476, aura: 3.998 },
                 steps: [
-                    { name: 'Semilla', op: '1.618 * 0.3', val: 0.485 },
+                    { name: 'Semilla', op: 'Φ * 0.3', val: 0.485 },
                     { name: 'Fricción', op: '0.485 / 2.379', val: 0.203 },
                     { name: 'Resolución', op: '0.203 / 10', val: 0.020 },
-                    { name: 'Ygg', op: '0.314 + 0.020', val: 0.334 },
+                    { name: 'Anclaje (Ygg)', op: 'π/10 + 0.020', val: 0.334 },
                     { name: 'M_G', op: '0.476 - 0.334', val: 0.142 },
-                    { name: 'Gen', op: '1.618 - 0.334', val: 1.284 },
-                    { name: 'Info', op: '0.142 - 3.142', val: -3.000 },
-                    { name: 'Gap', val: 4.284 },
-                    { name: 'Residuo', op: '4.284 - 3.998', val: 0.286 }
+                    { name: 'Gen', op: 'Φ - 0.334', val: 1.284 },
+                    { name: 'Info', op: '0.142 - π', val: -3.000 },
+                    { name: 'Gap', op: 'Gen - Info', val: 4.284 },
+                    { name: 'Omega', op: 'Gen + Info', val: -1.716 },
+                    { name: 'Residuo', op: '4.284 - AURA', val: 0.286 }
                 ]
             },
             {
@@ -3526,26 +3529,12 @@
                 steps: [
                     { name: 'Virtud', op: 'Φ / 10', val: 0.162 },
                     { name: 'Calor', op: 'BIAL / 100', val: 0.024 },
-                    { name: 'Ygg', op: '0.162 + 0.024', val: 0.186 },
+                    { name: 'Ygg (Filtro)', op: '0.162 + 0.024', val: 0.186 },
                     { name: 'M_G', val: 0.289 },
                     { name: 'Gen', val: -0.024 },
                     { name: 'Info', val: -0.025 },
                     { name: 'Gap', val: 0.001 },
                     { name: 'Omega', val: -0.049 }
-                ]
-            },
-            {
-                id: 'YGG_MIRA', l: 'Ygg MIRA', s: 'Ym', eq: 'π/10 Anclaje', v: 0.334, f: 'IRRADIACIÓN π', p: 3, c: 'text-blue-400', geom: { type: 'root', color: '#60a5fa' },
-                params: { phi: 1.618, bial: 2.379, pi: 3.142, omega: 0.476, limite: 3.998 },
-                steps: [
-                    { name: 'Semilla', op: 'Φ * 0.3', val: 0.485 },
-                    { name: 'Fricción', op: '/ BIAL', val: 0.203 },
-                    { name: 'Anclaje', op: 'π/10 + 0.02', val: 0.334 },
-                    { name: 'M_G', val: 0.142 },
-                    { name: 'Gen', val: 1.284 },
-                    { name: 'Info', val: -3.000 },
-                    { name: 'Gap', val: 4.284 },
-                    { name: 'Omega', val: -1.716 }
                 ]
             },
 
