@@ -21,6 +21,9 @@
         href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -262,8 +265,8 @@
                         </div>
                         
                         <div class="bg-black/30 p-3 rounded border border-stone-800 mb-4 backdrop-blur-md">
-                            <div class="text-[10px] text-stone-500 mb-1">EQUATION SIGIL</div>
-                            <div class="font-mono text-sm text-amber-500">${reg.eq}</div>
+                            <div class="text-[10px] text-stone-500 mb-2">EQUATION SIGIL</div>
+                            <div class="text-amber-400 katex-display-inline">${renderMath(reg.eq)}</div>
                         </div>
 
                         <div class="flex gap-2 text-[10px] font-mono text-stone-500">
@@ -310,17 +313,28 @@
             state.active = id; renderNav();
             cancelAnimationFrame(state.atomAnim); cancelAnimationFrame(state.activeAnim);
             Object.values(state.charts).forEach(c => c && c.destroy()); state.charts = {};
-            const el = document.getElementById('content-area'); el.innerHTML = ''; el.classList.remove('fade-in'); void el.offsetWidth;
-            setTimeout(() => {
+            const el = document.getElementById('content-area');
+
+            function _doLoad() {
+                el.innerHTML = '';
                 let html = '';
                 if (id === 'dash') html = genDash();
                 else if (id === 'sim') html = genSim();
                 else if (id === 'ygg') html = genYgg();
                 else html = genRes(id);
-                el.innerHTML = html; el.classList.add('fade-in');
+                el.innerHTML = html;
+
+                // GSAP entrada — fade + slide suave
+                if (typeof gsap !== 'undefined') {
+                    gsap.fromTo(el, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' });
+                    // Stagger en tarjetas KPI del dashboard
+                    const cards = el.querySelectorAll('.metric-card');
+                    if (cards.length) gsap.fromTo(cards, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.06, ease: 'power2.out', delay: 0.1 });
+                } else {
+                    el.classList.remove('fade-in'); void el.offsetWidth; el.classList.add('fade-in');
+                }
+
                 if (id === 'sim') runPythonSim();
-                // if (id === 'ygg') initBiosEngine(); // AUTO-CALLED FROM genYgg()
-                // if (id === 'split') initSplitView(); REMOVED
                 if (id === 'res2') initAtomViz();
                 if (id === 'res4') initChemViz();
                 if (id === 'res5') initMedViz();
@@ -328,7 +342,14 @@
                 if (id === 'irreg') initIrregViz();
                 if (id === 'ygg') initBiosEngine();
                 if (id.startsWith('res') && id !== 'res4' && id !== 'res5' && id !== 'res6') initChart(id);
-            }, 50);
+            }
+
+            // GSAP salida antes de cargar nueva sección
+            if (typeof gsap !== 'undefined' && el.children.length > 0) {
+                gsap.to(el, { opacity: 0, y: -8, duration: 0.18, ease: 'power2.in', onComplete: _doLoad });
+            } else {
+                setTimeout(_doLoad, 50);
+            }
         }
 
         function genDash() {
@@ -430,9 +451,9 @@
                     <div id="register-panel" class="h-[60%] mb-4 bg-stone-900 rounded-xl border border-stone-700 relative overflow-hidden group cursor-ns-resize shadow-lg transition-colors hover:border-amber-500/50 flex flex-col">
                         <!-- BG DECORATION -->
                         <div class="absolute inset-0 bg-gradient-to-br from-stone-800/20 to-black pointer-events-none"></div>
-                        
-                        <!-- CONTENT CONTAINER -->
-                        <div id="register-content" class="relative z-10 w-full h-full overflow-hidden">
+
+                        <!-- CONTENT CONTAINER — scroll libre en ambos ejes -->
+                        <div id="register-content" class="relative z-10 w-full h-full overflow-auto">
                             <!-- Injected by JS -->
                             <div class="flex flex-col items-center justify-center h-full text-center">
                                 <h3 class="text-stone-500 font-mono text-sm animate-pulse">INITIATING YGG LINK...</h3>
@@ -910,13 +931,13 @@
                                 <h4 class="font-bold text-stone-800 dark:text-stone-200 mb-2">1. CONSTANTES RAÍZ (Calibración SSEE)</h4>
                                 <p class="text-xs text-stone-500 mb-2">Valores base con resolución de 12 a 15 decimales para evitar el ruido del Trial.</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono bg-stone-100 dark:bg-stone-800 p-3 rounded-lg border border-stone-200 dark:border-stone-700">
-                                    <div class="flex justify-between items-start gap-2"><div><div>PHI (Intención)</div><div class="text-[10px] text-amber-600/60">Axioma</div></div><span class="font-bold">${fmtIrreg(C.PHI)}</span></div>
-                                    <div class="flex justify-between items-start gap-2"><div><div>PI (Lógica)</div><div class="text-[10px] text-amber-600/60">Axioma</div></div><span class="font-bold">${fmtIrreg(C.PI)}</span></div>
-                                    <div class="flex justify-between items-start gap-2"><div><div>ΩDNAV (Estabilidad)</div><div class="text-[10px] text-amber-600/60">= PHI + PI</div></div><span class="font-bold">${fmtIrreg(C.OMEGA_DNAV)}</span></div>
-                                    <div class="flex justify-between items-start gap-2"><div><div>BIAL (Pulso/Calor)</div><div class="text-[10px] text-amber-600/60">= (PHI + PI) / 2</div></div><span class="font-bold">${fmtIrreg(C.BIAL)}</span></div>
-                                    <div class="flex justify-between items-start gap-2"><div><div>KAL (Retención)</div><div class="text-[10px] text-amber-600/60">= BIAL + PI</div></div><span class="font-bold">${fmtIrreg(C.KAL)}</span></div>
-                                    <div class="flex justify-between items-start gap-2"><div><div>TRIAL (Límite 3D)</div><div class="text-[10px] text-amber-600/60">= AURA × 3</div></div><span class="font-bold">${fmtIrreg(C.TRIAL)}</span></div>
-                                    <div class="flex justify-between items-start gap-2 text-amber-600"><div><div>MIKÆL-V (Soberanía V)</div><div class="text-[10px] text-amber-600/60">= PHI + PI + KRYSTOS</div></div><span class="font-bold">${fmtIrreg(C.MIKAEL_V)}</span></div>
+                                    <div class="flex justify-between items-start gap-2"><div><div>PHI (Intención)</div><div class="text-[10px] text-amber-600/70">${renderMath('Axioma')}</div></div><span class="font-bold">${fmtIrreg(C.PHI)}</span></div>
+                                    <div class="flex justify-between items-start gap-2"><div><div>PI (Lógica)</div><div class="text-[10px] text-amber-600/70">${renderMath('Axioma')}</div></div><span class="font-bold">${fmtIrreg(C.PI)}</span></div>
+                                    <div class="flex justify-between items-start gap-2"><div><div>ΩDNAV (Estabilidad)</div><div class="text-[10px] text-amber-600/70">${renderMath('PHI + PI')}</div></div><span class="font-bold">${fmtIrreg(C.OMEGA_DNAV)}</span></div>
+                                    <div class="flex justify-between items-start gap-2"><div><div>BIAL (Pulso/Calor)</div><div class="text-[10px] text-amber-600/70">${renderMath('(PHI + PI) / 2')}</div></div><span class="font-bold">${fmtIrreg(C.BIAL)}</span></div>
+                                    <div class="flex justify-between items-start gap-2"><div><div>KAL (Retención)</div><div class="text-[10px] text-amber-600/70">${renderMath('BIAL + PI')}</div></div><span class="font-bold">${fmtIrreg(C.KAL)}</span></div>
+                                    <div class="flex justify-between items-start gap-2"><div><div>TRIAL (Límite 3D)</div><div class="text-[10px] text-amber-600/70">${renderMath('AURA × 3')}</div></div><span class="font-bold">${fmtIrreg(C.TRIAL)}</span></div>
+                                    <div class="flex justify-between items-start gap-2 text-amber-600"><div><div>MIKÆL-V (Soberanía V)</div><div class="text-[10px] text-amber-600/70">${renderMath('PHI + PI + KRYSTOS')}</div></div><span class="font-bold">${fmtIrreg(C.MIKAEL_V)}</span></div>
                                 </div>
                             </div>
 
@@ -1684,10 +1705,10 @@
                 title = 'MATRIZ DE CONSTANTES IRREGULARES SSEE';
                 desc = `<h3 class="font-bold mb-2 text-stone-900 dark:text-white">1. Definición</h3>
                         <p class="mb-4 text-stone-600 dark:text-stone-400">Constantes derivadas de la interacción PHI-PI que forman el tejido de la realidad no lineal.</p>
-                        <div class="overflow-hidden rounded-xl border border-stone-200 dark:border-stone-800 shadow-sm">
-                            <table class="w-full text-xs md:text-sm text-left border-collapse">
+                        <div class="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800 shadow-sm">
+                            <table class="min-w-[640px] w-full text-xs md:text-sm text-left border-collapse">
                                 <thead class="bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-bold uppercase">
-                                    <tr><th class="p-3">Constante</th><th class="p-3">Símbolo</th><th class="p-3 lg:block hidden">Ecuación</th><th class="p-3 text-right">Valor</th><th class="p-3 lg:block hidden">Función</th></tr>
+                                    <tr><th class="p-3">Constante</th><th class="p-3">Símbolo</th><th class="p-3">Ecuación</th><th class="p-3 text-right">Valor</th><th class="p-3">Función</th><th class="p-3">Precisión</th></tr>
                                 </thead>
                                 <tbody id="irregTableBody" class="divide-y divide-stone-100 dark:divide-stone-800 bg-white dark:bg-stone-900 font-mono text-stone-600 dark:text-stone-400">
                                     ${genIrregRows()}
@@ -2027,10 +2048,10 @@
                             </div>
                         </div>
 
-                        <div class="overflow-hidden rounded-xl border border-stone-200 dark:border-stone-800 shadow-sm">
-                            <table class="w-full text-xs md:text-sm text-left border-collapse">
+                        <div class="overflow-x-auto rounded-xl border border-stone-200 dark:border-stone-800 shadow-sm">
+                            <table class="min-w-[640px] w-full text-xs md:text-sm text-left border-collapse">
                                 <thead class="bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-bold uppercase">
-                                    <tr><th class="p-3">Constante</th><th class="p-3">Símbolo</th><th class="p-3 lg:block hidden">Ecuación</th><th class="p-3 text-right">Valor</th><th class="p-3 lg:block hidden">Función</th></tr>
+                                    <tr><th class="p-3">Constante</th><th class="p-3">Símbolo</th><th class="p-3">Ecuación</th><th class="p-3 text-right">Valor</th><th class="p-3">Función</th><th class="p-3">Precisión</th></tr>
                                 </thead>
                                 <tbody id="irregTableBody" class="divide-y divide-stone-100 dark:divide-stone-800 bg-white dark:bg-stone-900 font-mono text-stone-600 dark:text-stone-400">
                                     ${genIrregRows()}
@@ -3384,9 +3405,68 @@
             return v.toFixed(12).replace(/\.?0+$/, '') + '…';
         }
 
+        const LATEX_MAP = {
+            'Axioma':         '\\text{Axioma}',
+            'Anclaje':        '\\text{Anclaje}',
+            'Salto':          '\\text{Salto}',
+            'Espejo':         '\\text{Espejo}',
+            'Virtud+Calor':   '\\text{Virtud} + \\text{Calor}',
+            'Σ(5P+3N+1n)':   '\\Sigma(5P + 3N + 1n)',
+            'π/10 Anclaje':   '\\tfrac{\\pi}{10} \\cdot \\text{Anclaje}',
+            'Est/BIAL=0.319': '\\tfrac{\\text{Est}}{\\beta} = 0.319',
+            'OSIRIS/10⁴':     '\\tfrac{\\text{OSIRIS}}{10^4}',
+            'MIKA/10³':       '\\tfrac{M_k}{10^3}',
+            'SOLAR×R/100':    '\\tfrac{\\text{SOLAR} \\times R}{100}',
+            'π/10+Fric':      '\\tfrac{\\pi}{10} + \\text{Fric}',
+            'Aura+0.015':     '\\text{AURA} + 0.015',
+            'Ω-0.143':        '\\Omega - 0.143',
+            '(Φ+π)/2':        '\\dfrac{\\Phi + \\pi}{2}',
+            'PHI+BIAL':       '\\Phi + \\beta',
+            'PI+PHI':         '\\pi + \\Phi',
+            'BIAL+PI':        '\\beta + \\pi',
+            'Ωd+PHI':         '\\Omega_d + \\Phi',
+            'BIAL+KAL':       '\\beta + K',
+            'Ω+π':            '\\Omega + \\pi',
+            'AURA*2':         '\\text{AURA} \\times 2',
+            'AURA*3':         '\\text{AURA} \\times 3',
+            'AURA*4':         '\\text{AURA} \\times 4',
+            'AURA/2':         '\\dfrac{\\text{AURA}}{2}',
+            'PI+KAL':         '\\pi + K',
+            'PI+PYROS':       '\\pi + P_y',
+            'Φ+π+Ω':          '\\Phi + \\pi + \\Omega',
+            'Kr+PHI':         'K_r + \\Phi',
+            'Φ+π+Kr':         '\\Phi + \\pi + K_r',
+            'Mk-Tr':          'M_k - T_r',
+            'So+Py':          'S_o + P_y',
+            'φt+Au':          '\\phi_t + \\text{Au}',
+            'Ig+Ω':           'I_g + \\Omega',
+            'Mk+π':           'M_k + \\pi',
+            'β+K+Py':         '\\beta + K + P_y',
+            'Mr+Py':          'M_r + P_y',
+            'Py+Ω+π':         'P_y + \\Omega + \\pi',
+            'Mk+K-β':         'M_k + K - \\beta',
+            // Fórmulas inline para res1
+            'PHI + PI':           '\\Phi + \\pi',
+            '(PHI + PI) / 2':     '\\dfrac{\\Phi + \\pi}{2}',
+            'BIAL + PI':          '\\beta + \\pi',
+            'AURA × 3':           '\\text{AURA} \\times 3',
+            'PHI + PI + KRYSTOS': '\\Phi + \\pi + K_r',
+        };
+
+        function renderMath(eq) {
+            if (!eq) return '';
+            const latex = LATEX_MAP[eq] || eq;
+            if (typeof katex === 'undefined') return `<span class="font-mono text-xs">${eq}</span>`;
+            try {
+                return katex.renderToString(latex, { throwOnError: false, displayMode: false, output: 'html' });
+            } catch(e) {
+                return `<span class="font-mono text-xs">${eq}</span>`;
+            }
+        }
+
         function genIrregRows() {
             const sorted = [...IRREG_DATA].sort((a, b) => a.v - b.v);
-            return sorted.map(r => `<tr onclick="selectIrreg('${r.id}')" class="group cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors ${vizState.selected === r.id ? 'bg-amber-100 dark:bg-amber-900/30' : ''}"><td class="p-3 font-bold ${r.c}">${r.l}</td><td class="p-3 font-mono text-stone-500 hidden md:table-cell">${r.s}</td><td class="p-3 hidden lg:block text-stone-400 text-xs mt-3">${r.eq}</td><td class="p-3 text-right font-mono font-bold text-stone-600 text-xs">${fmtIrreg(r.v)}</td><td class="p-3 hidden lg:block text-xs italic text-stone-500 mt-3">${r.f}</td><td class="p-3 font-mono text-[10px] text-stone-400">p-${r.p}</td></tr>`).join('');
+            return sorted.map(r => `<tr onclick="selectIrreg('${r.id}')" class="group cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors ${vizState.selected === r.id ? 'bg-amber-100 dark:bg-amber-900/30' : ''}"><td class="p-3 font-bold ${r.c}">${r.l}</td><td class="p-3 font-mono text-stone-500 hidden md:table-cell">${r.s}</td><td class="p-3 hidden lg:table-cell text-stone-400 text-xs">${renderMath(r.eq)}</td><td class="p-3 text-right font-mono font-bold text-stone-600 text-xs">${fmtIrreg(r.v)}</td><td class="p-3 hidden lg:table-cell text-xs italic text-stone-500">${r.f}</td><td class="p-3 font-mono text-[10px] text-stone-400">p-${r.p}</td></tr>`).join('');
         }
 
         let vizState = { mode: 5, selected: null }; // FORCE YGG MODE ON LOAD
