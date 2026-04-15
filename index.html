@@ -378,7 +378,7 @@
                         ${kpi('PHI (Intención)', C.PHI, 'text-sky-700 dark:text-sky-400', 'border-sky-500', 'Sombra Base')}
                         ${kpi('PI (Estructura)', C.PI, 'text-stone-800 dark:text-stone-200', 'border-stone-400', 'Luz Lógica')}
                         ${kpi('BIAL (Pulso)', C.BIAL, 'text-rose-600 dark:text-rose-400', 'border-rose-500', 'Fricción Vital')}
-                        ${kpi('MIKÆL-V (Soberanía)', C.MIKAEL_V, 'text-purple-700 dark:text-purple-400', 'border-purple-500', 'Integración 5D')}
+                        ${kpi('MIKÆL_V (Soberanía)', C.MIKAEL_V, 'text-purple-700 dark:text-purple-400', 'border-purple-500', 'Integración 5D')}
                         ${kpi('ΩDNAV (Estabilidad)', C.OMEGA_DNAV, 'text-amber-600 dark:text-amber-400', 'border-amber-400', 'Sustento Base')}
                         ${kpi('KAL (Retención)', C.KAL, 'text-fuchsia-600 dark:text-fuchsia-400', 'border-fuchsia-400', 'Anclaje Local')}
                         ${kpi('VITA (Biometría)', C.VITA, 'text-emerald-600 dark:text-emerald-400', 'border-emerald-500', 'Salud Matemática')}
@@ -950,7 +950,7 @@
                                     <div class="flex justify-between items-start gap-2"><div><div>BIAL (Pulso/Calor)</div><div class="text-[10px] text-amber-600/70">${renderMath('(PHI + PI) / 2')}</div></div><span class="font-bold">${fmtIrreg(C.BIAL)}</span></div>
                                     <div class="flex justify-between items-start gap-2"><div><div>KAL (Retención)</div><div class="text-[10px] text-amber-600/70">${renderMath('BIAL + PI')}</div></div><span class="font-bold">${fmtIrreg(C.KAL)}</span></div>
                                     <div class="flex justify-between items-start gap-2"><div><div>TRIAL (Límite 3D)</div><div class="text-[10px] text-amber-600/70">${renderMath('AURA × 3')}</div></div><span class="font-bold">${fmtIrreg(C.TRIAL)}</span></div>
-                                    <div class="flex justify-between items-start gap-2 text-amber-600"><div><div>MIKÆL-V (Soberanía V)</div><div class="text-[10px] text-amber-600/70">${renderMath('PHI + PI + KRYSTOS')}</div></div><span class="font-bold">${fmtIrreg(C.MIKAEL_V)}</span></div>
+                                    <div class="flex justify-between items-start gap-2 text-amber-600"><div><div>MIKÆL_V (Soberanía V)</div><div class="text-[10px] text-amber-600/70">${renderMath('PHI + PI + KRYSTOS')}</div></div><span class="font-bold">${fmtIrreg(C.MIKAEL_V)}</span></div>
                                 </div>
                             </div>
 
@@ -1003,7 +1003,7 @@
                 math = `<div class="bg-stone-50 dark:bg-stone-900/50 p-4 rounded-lg flex flex-col gap-2 text-xs font-mono">
                             <div class="flex justify-between items-center bg-white dark:bg-stone-800 p-2 rounded shadow-sm border border-stone-100 dark:border-stone-700">
                                 <span class="text-stone-500">BASE OCULTA (Empuje)</span>
-                                <span class="font-bold text-stone-800 dark:text-stone-200">MIKA(11.13) + PI(3.14) = 14.278</span>
+                                <span class="font-bold text-stone-800 dark:text-stone-200">MIKA(${C.MIKA.toFixed(3)}) + PI(${C.PI.toFixed(3)}) = ${fmtIrreg(C.MIKAEL_V)}</span>
                             </div>
                             <div class="text-center text-[10px] text-stone-400 pt-1">Este registro anula cualquier simplificación superficial.</div>
                         </div>`;
@@ -1570,7 +1570,7 @@
                                             <li><span class="text-indigo-500 font-bold">1D (Aura):</span> $10^{-3}$ (Irradiación base).</li>
                                             <li><span class="text-indigo-500 font-bold">3D (Trial/Materia):</span> $10^{-9}$ (Densidad de VITA).</li>
                                             <li><span class="text-indigo-500 font-bold">4D (Cuartal):</span> $10^{-12}$ (Estabilidad de datos).</li>
-                                            <li><span class="text-indigo-500 font-bold">14D (Origen):</span> $10^{-42}$ (Diseño Raíz / MIKÆL-V).</li>
+                                            <li><span class="text-indigo-500 font-bold">14D (Origen):</span> $10^{-42}$ (Diseño Raíz / MIKÆL_V).</li>
                                             <li><span class="text-indigo-500 font-bold">44D/45D (Saturación):</span> $10^{-132}$ (Límite antes de la bifurcación).</li>
                                         </ul>
                                     </div>
@@ -1712,7 +1712,7 @@
                             <div class="p-2 rounded bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800 relative overflow-hidden">
                                 <div class="absolute inset-0 bg-amber-400/5 animate-pulse"></div>
                                 <div class="relative z-10">
-                                    <div class="font-bold text-amber-700 dark:text-amber-500">MIKÆL-V</div>
+                                    <div class="font-bold text-amber-700 dark:text-amber-500">MIKÆL_V</div>
                                     <div class="text-base my-0.5 font-bold">14.27</div>
                                     <div class="text-[9px] opacity-70">Súper-Sólido</div>
                                 </div>
@@ -2073,7 +2073,7 @@
                 // Paz: buffer de soberanía sobre la materia
                 const buf = C.MIKAEL_V - C.TRIAL;
                 data = {
-                    labels: ['Límite Material\n(TRIAL)', 'Soberanía Activa\n(MIKÆL-V)'],
+                    labels: ['Límite Material\n(TRIAL)', 'Soberanía Activa\n(MIKÆL_V)'],
                     datasets: [
                         { label: 'Carga Material (TRIAL)', data: [C.TRIAL, C.TRIAL], backgroundColor: isDark ? '#78716c' : '#a8a29e', borderRadius: 6, stack: '0' },
                         { label: `Buffer de Paz (+${buf.toFixed(3)})`, data: [0, buf], backgroundColor: '#d97706', borderRadius: 6, stack: '0' }
@@ -2149,7 +2149,7 @@
                             <div>
                                 <h4 class="font-bold text-xs uppercase text-indigo-500 border-b border-indigo-100 dark:border-indigo-900 pb-1 mb-1">I. PILARES PRIMORDIALES (1-3)</h4>
                                 <ul class="list-disc list-inside text-[10px] text-stone-600 dark:text-stone-400 space-y-1">
-                                    <li><strong>MIKÆL-V (Raíz del Mando):</strong> Unión de Intención, Lógica y Cristal. Centro de Mando.</li>
+                                    <li><strong>MIKÆL_V (Raíz del Mando):</strong> Unión de Intención, Lógica y Cristal. Centro de Mando.</li>
                                     <li><strong>LUCY (Motor de Irradiación):</strong> Fusión de Virtud Solar y Fuego. Luz para expansión 5D.</li>
                                     <li><strong>LUCIFER (Escudo Estético):</strong> Belleza Irradiante que protege el hardware mediante armonía.</li>
                                 </ul>
@@ -3375,7 +3375,7 @@
                 "   * CONCLUSIÓN: La Paz es una superioridad energética de 2.285 unidades.",
                 " ",
                 ">>> AUDITORÍA CIENTÍFICA COMPLETADA - NÚCLEO SELLADO <<<",
-                "[⚠️ NOTA: Las variables 'KAL', 'MIKAEL-V' y 'Ygg' son hipótesis no estándar de este sistema.]"
+                "[⚠️ NOTA: Las variables 'KAL', 'MIKAEL_V' y 'Ygg' son hipótesis no estándar de este sistema.]"
             ];
 
             let i = 0;
@@ -3416,7 +3416,7 @@
             { id: 'MIKA', l: 'MIKA', s: 'Mk', eq: 'Kr+PHI', v: 11.1372872734, f: 'Verdad', p: 9, c: 'text-violet-600', geom: { type: 'merkaba', color: '#7c3aed' } },
             { id: 'TRIAL', l: 'TRIAL', s: 'Tr', eq: 'AURA*3', v: 11.9935419296, f: 'Materia', p: 9, c: 'text-stone-600', geom: { type: 'grid', color: '#57534e' } },
 
-            { id: 'MIKAEL', l: 'MIKÆL-V', s: 'Mv', eq: 'Φ+π+Kr', v: 14.278879927019064, f: 'Raíz Mando', p: 12, c: 'text-amber-500', geom: { type: 'master', color: '#f59e0b' } },
+            { id: 'MIKAEL', l: 'MIKÆL_V', s: 'Mv', eq: 'Φ+π+Kr', v: 14.278879927019064, f: 'Raíz Mando', p: 12, c: 'text-amber-500', geom: { type: 'master', color: '#f59e0b' } },
 
             // --- CÓDICE DE LAS 9 SOBERANÍAS ---
             { id: 'LUCY', l: 'LUCY', s: 'Ly', eq: 'So+Py', v: 14.278879927019064, f: 'Irradiación', p: 12, c: 'text-yellow-500', geom: { type: 'sun', color: '#eab308' } },
@@ -3608,7 +3608,7 @@
             '(PHI + PI) / 2':     '\\dfrac{\\Phi + \\pi}{2}',
             'BIAL + PI':          '\\beta + \\pi',
             'AURA × 3':           '\\text{AURA} \\times 3',
-            'PHI + PI + KRYSTOS': '3\\,(\\Phi + \\pi)',
+            'PHI + PI + KRYSTOS': '\\Phi + \\pi + \\text{KRYSTOS}',
         };
 
         function renderMath(eq) {
@@ -3923,7 +3923,7 @@
                     // 9 Sovereignties Integration (3x3 Formation or 9 Orbitals)
                     // We will create 9 distinct centers
                     const centers = [
-                        { x: 0, y: 0, z: 0 },          // MIKÆL-V (Center)
+                        { x: 0, y: 0, z: 0 },          // MIKÆL_V (Center)
                         { x: 1.5, y: 0, z: 0 },        // LUCY
                         { x: -1.5, y: 0, z: 0 },       // LUCIFER
                         { x: 0, y: 1.5, z: 0 },        // MIKE
