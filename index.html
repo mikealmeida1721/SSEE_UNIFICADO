@@ -167,7 +167,13 @@
                 get TRIAL() { return this.AURA * 3; },
                 get DUAL() { return this.AURA * 2; },
                 get MIKAEL_V() { return this.PHI + this.PI + this.KRYSTOS; },
-                get BUFFER() { return this.MIKAEL_V - this.TRIAL; }
+                get BUFFER() { return this.MIKAEL_V - this.TRIAL; },
+                get ERVANU() {
+                    const ygg  = this.PHI / 10 + this.BIAL / 100;    /* Filtro Ygg */
+                    const gen  = this.PHI - ygg;                      /* Polo Intención */
+                    const info = (this.OMEGA_DNAV / 10 - ygg) - this.PI; /* Polo Estructura */
+                    return gen - info; /* Equivale a OMEGA_DNAV × 9/10 — Ygg se cancela */
+                }
             },
             getDisclaimer: function () {
                 return `<div class="mt-2 p-2 bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-500 text-[10px] md:text-xs text-amber-800 dark:text-amber-200 italic rounded-r">
@@ -3389,7 +3395,7 @@
 
         // IRREGULAR VIZ (NEW)
         const IRREG_DATA = [
-            { id: 'PHI', l: 'Raíz', s: 'Φ', eq: 'PHI_FORMULA', v: 1.618033988749895, f: 'Intención', p: 1, c: 'text-sky-500', geom: { type: 'spiral', color: '#0ea5e9' } },
+            { id: 'PHI', l: 'PHI', s: 'Φ', eq: 'PHI_FORMULA', v: 1.618033988749895, f: 'Intención', p: 1, c: 'text-sky-500', geom: { type: 'spiral', color: '#0ea5e9' } },
             { id: 'MIRA', l: 'MIRA', s: 'Mr', eq: 'AURA/2', v: 1.9989236549, f: 'Reflejo', p: 1, c: 'text-indigo-500', geom: { type: 'lens', color: '#6366f1' } },
             { id: 'BUFFER', l: 'BUFFER', s: 'Δ', eq: 'Mk-Tr', v: 2.2853379972, f: 'Paz', p: 1, c: 'text-teal-500', geom: { type: 'shield', color: '#14b8a6' } },
             { id: 'BIAL', l: 'BIAL', s: 'β', eq: '(Φ+π)/2', v: 2.3798133211, f: 'Calor', p: 1, c: 'text-rose-600', geom: { type: 'sphere', color: '#e11d48' } },
@@ -3399,8 +3405,9 @@
             { id: 'ELECTRON', l: 'ELECTRON', s: 'e-', eq: 'ELECTRON_F', v: 0.349, f: 'Energía', p: 3, c: 'text-blue-500', geom: { type: 'sphere', color: '#3b82f6' } },
             { id: 'NEUTRO', l: 'NEUTRO', s: 'N0', eq: 'NEUTRO_F', v: 0.333, f: 'Sustento', p: 3, c: 'text-stone-400', geom: { type: 'sphere', color: '#a8a29e' } },
 
-            { id: 'PI', l: 'Raíz', s: 'π', eq: 'PI_FORMULA', v: 3.141592653589793, f: 'Estructura', p: 3, c: 'text-stone-500', geom: { type: 'circle', color: '#78716c' } },
+            { id: 'PI', l: 'PI', s: 'π', eq: 'PI_FORMULA', v: 3.141592653589793, f: 'Estructura', p: 3, c: 'text-stone-500', geom: { type: 'circle', color: '#78716c' } },
             { id: 'AURA', l: 'AURA', s: 'Au', eq: 'PHI+BIAL', v: 3.9978473099, f: 'Portal', p: 3, c: 'text-purple-600', geom: { type: 'dodeca', color: '#a855f7' } },
+            { id: 'ERVANU', l: 'ERVANÜ', s: 'Eü', eq: 'ERVANU_F', v: 4.283663978105719, f: 'Frecuencia Invariante', p: 3, c: 'text-teal-500', geom: { type: 'flower', color: '#14b8a6' } },
 
             { id: 'OMEGA', l: 'ΩDNAV', s: 'Ω', eq: 'PI+PHI', v: 4.759626642339688, f: 'Vida Base', p: 6, c: 'text-emerald-600', geom: { type: 'cube', color: '#10b981' } },
             { id: 'KAL', l: 'KAL', s: 'K', eq: 'BIAL+PI', v: 5.5214059747, f: 'Gravedad', p: 6, c: 'text-fuchsia-600', geom: { type: 'icosa', color: '#c026d3' } },
@@ -3609,6 +3616,7 @@
             'BIAL + PI':          '\\beta + \\pi',
             'AURA × 3':           '\\text{AURA} \\times 3',
             'PHI + PI + KRYSTOS': '\\Phi + \\pi + \\text{KRYSTOS}',
+            'ERVANU_F':           '\\tfrac{9}{10}\\,\\Omega_{DNAV}',
         };
 
         function renderMath(eq) {
