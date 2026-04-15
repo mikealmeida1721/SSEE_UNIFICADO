@@ -377,7 +377,7 @@
                         <div class="bg-amber-50 dark:bg-amber-950/30 p-8 rounded-xl border border-amber-100 dark:border-amber-900/50"><h4 class="font-bold text-amber-800 dark:text-amber-500 mb-4 tracking-tight">Estado</h4><ul class="space-y-3 text-sm font-mono text-amber-900/70"><li class="flex justify-between border-b border-amber-200 dark:border-amber-800 pb-2"><span>PRECISIÓN</span> <strong>p-12</strong></li><li class="flex justify-between border-b border-amber-200 dark:border-amber-800 pb-2"><span>NÚCLEO</span> <strong>SELLADO</strong></li></ul></div>
                     </div></div>`;
         }
-        function kpi(l, v, c, b, s) { return `<div class="metric-card bg-white dark:bg-stone-900 p-5 rounded-lg border-l-4 ${b} shadow-sm"><span class="text-xs font-bold text-stone-400 uppercase">${l}</span><div class="font-mono text-2xl font-bold mt-2 ${c} truncate">${v.toFixed(9)}</div><div class="text-[10px] text-stone-400 uppercase">${s}</div></div>`; }
+        function kpi(l, v, c, b, s) { return `<div class="metric-card bg-white dark:bg-stone-900 p-5 rounded-lg border-l-4 ${b} shadow-sm"><span class="text-xs font-bold text-stone-400 uppercase">${l}</span><div class="font-mono text-2xl font-bold mt-2 ${c} truncate">${fmtIrreg(v)}</div><div class="text-[10px] text-stone-400 uppercase">${s}</div></div>`; }
 
         function genYgg() {
             // Load Three.js scripts
@@ -910,13 +910,13 @@
                                 <h4 class="font-bold text-stone-800 dark:text-stone-200 mb-2">1. CONSTANTES RAÍZ (Calibración SSEE)</h4>
                                 <p class="text-xs text-stone-500 mb-2">Valores base con resolución de 12 a 15 decimales para evitar el ruido del Trial.</p>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-2 text-xs font-mono bg-stone-100 dark:bg-stone-800 p-3 rounded-lg border border-stone-200 dark:border-stone-700">
-                                    <div class="flex justify-between"><span>PHI (Intención)</span> <span class="font-bold">1.618033988749</span></div>
-                                    <div class="flex justify-between"><span>PI (Lógica)</span> <span class="font-bold">3.141592653589</span></div>
-                                    <div class="flex justify-between"><span>ΩDNAV (Estabilidad)</span> <span class="font-bold">4.759626642</span></div>
-                                    <div class="flex justify-between"><span>BIAL (Pulso/Calor)</span> <span class="font-bold">2.379813321160</span></div>
-                                    <div class="flex justify-between"><span>KAL (Retención)</span> <span class="font-bold">5.521405974750</span></div>
-                                    <div class="flex justify-between"><span>TRIAL (Límite 3D)</span> <span class="font-bold">11.993541929670</span></div>
-                                    <div class="flex justify-between text-amber-600"><span>MIKÆL-V (Soberanía V)</span> <span class="font-bold">14.278879926960</span></div>
+                                    <div class="flex justify-between"><span>PHI (Intención)</span> <span class="font-bold">${fmtIrreg(C.PHI)}</span></div>
+                                    <div class="flex justify-between"><span>PI (Lógica)</span> <span class="font-bold">${fmtIrreg(C.PI)}</span></div>
+                                    <div class="flex justify-between"><span>ΩDNAV (Estabilidad)</span> <span class="font-bold">${fmtIrreg(C.OMEGA_DNAV)}</span></div>
+                                    <div class="flex justify-between"><span>BIAL (Pulso/Calor)</span> <span class="font-bold">${fmtIrreg(C.BIAL)}</span></div>
+                                    <div class="flex justify-between"><span>KAL (Retención)</span> <span class="font-bold">${fmtIrreg(C.KAL)}</span></div>
+                                    <div class="flex justify-between"><span>TRIAL (Límite 3D)</span> <span class="font-bold">${fmtIrreg(C.TRIAL)}</span></div>
+                                    <div class="flex justify-between text-amber-600"><span>MIKÆL-V (Soberanía V)</span> <span class="font-bold">${fmtIrreg(C.MIKAEL_V)}</span></div>
                                 </div>
                             </div>
 
@@ -1132,10 +1132,10 @@
                              <div class="bg-stone-50 dark:bg-stone-900/50 p-4 rounded-lg border border-stone-100 dark:border-stone-800">
                                 <h4 class="font-bold text-stone-800 dark:text-stone-200 mb-3 uppercase text-xs tracking-wider">2. Constantes Raíz (Calibración del Observador)</h4>
                                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 font-mono text-[10px] md:text-xs">
-                                    <div class="flex flex-col"><span class="font-bold text-sky-600 dark:text-sky-400">PHI (Φ)</span><span>1.618033988749</span><span class="text-stone-400 italic">Intención/Virtud</span></div>
-                                    <div class="flex flex-col"><span class="font-bold text-stone-600 dark:text-stone-300">PI (π)</span><span>3.141592653589</span><span class="text-stone-400 italic">Lógica/Estructura</span></div>
-                                    <div class="flex flex-col"><span class="font-bold text-indigo-600 dark:text-indigo-400">AURA</span><span>3.99784730990</span><span class="text-stone-400 italic">Límite (Φ + BIAL)</span></div>
-                                    <div class="flex flex-col"><span class="font-bold text-fuchsia-600 dark:text-fuchsia-400">ΩDNAV</span><span>4.759626642</span><span class="text-stone-400 italic">Estabilidad (π + Φ)</span></div>
+                                    <div class="flex flex-col"><span class="font-bold text-sky-600 dark:text-sky-400">PHI (Φ)</span><span>${fmtIrreg(C.PHI)}</span><span class="text-stone-400 italic">Intención/Virtud</span></div>
+                                    <div class="flex flex-col"><span class="font-bold text-stone-600 dark:text-stone-300">PI (π)</span><span>${fmtIrreg(C.PI)}</span><span class="text-stone-400 italic">Lógica/Estructura</span></div>
+                                    <div class="flex flex-col"><span class="font-bold text-indigo-600 dark:text-indigo-400">AURA</span><span>${fmtIrreg(C.AURA)}</span><span class="text-stone-400 italic">Límite (Φ + BIAL)</span></div>
+                                    <div class="flex flex-col"><span class="font-bold text-fuchsia-600 dark:text-fuchsia-400">ΩDNAV</span><span>${fmtIrreg(C.OMEGA_DNAV)}</span><span class="text-stone-400 italic">Estabilidad (π + Φ)</span></div>
                                 </div>
                              </div>
 
@@ -3380,8 +3380,8 @@
             if (typeof v !== 'number') return v;
             // Si el número es exacto a 3 decimales (finito), mostrarlo tal cual
             if (Math.abs(v - parseFloat(v.toFixed(3))) < 1e-9) return v.toFixed(3);
-            // Si es irracional/derivado, mostrar 12 decimales + … para indicar que continúa
-            return v.toFixed(12) + '…';
+            // Mostrar hasta 12 decimales, recortar ceros finales, agregar … (infinito)
+            return v.toFixed(12).replace(/\.?0+$/, '') + '…';
         }
 
         function genIrregRows() {
