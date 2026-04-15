@@ -3246,9 +3246,9 @@
             { id: 'BIAL', l: 'BIAL', s: 'β', eq: '(Φ+π)/2', v: 2.3798133211, f: 'Calor', p: 1, c: 'text-rose-600', geom: { type: 'sphere', color: '#e11d48' } },
 
             // --- PARTICULAS FUNDAMENTALES (RAICES) ---
-            { id: 'PROTON', l: 'PROTON', s: 'P+', eq: 'Anclaje', v: 0.319, f: 'Materia', p: 3, c: 'text-green-500', geom: { type: 'sphere', color: '#22c55e' } },
-            { id: 'ELECTRON', l: 'ELECTRON', s: 'e-', eq: 'Salto', v: 0.349, f: 'Energía', p: 3, c: 'text-blue-500', geom: { type: 'sphere', color: '#3b82f6' } },
-            { id: 'NEUTRO', l: 'NEUTRO', s: 'N0', eq: 'Espejo', v: 0.333, f: 'Sustento', p: 3, c: 'text-stone-400', geom: { type: 'sphere', color: '#a8a29e' } },
+            { id: 'PROTON', l: 'PROTON', s: 'P+', eq: 'PROTON_F', v: 0.319, f: 'Materia', p: 3, c: 'text-green-500', geom: { type: 'sphere', color: '#22c55e' } },
+            { id: 'ELECTRON', l: 'ELECTRON', s: 'e-', eq: 'ELECTRON_F', v: 0.349, f: 'Energía', p: 3, c: 'text-blue-500', geom: { type: 'sphere', color: '#3b82f6' } },
+            { id: 'NEUTRO', l: 'NEUTRO', s: 'N0', eq: 'NEUTRO_F', v: 0.333, f: 'Sustento', p: 3, c: 'text-stone-400', geom: { type: 'sphere', color: '#a8a29e' } },
 
             { id: 'PI', l: 'Raíz', s: 'π', eq: 'PI_FORMULA', v: 3.141592653589793, f: 'Estructura', p: 3, c: 'text-stone-500', geom: { type: 'circle', color: '#78716c' } },
             { id: 'AURA', l: 'AURA', s: 'Au', eq: 'PHI+BIAL', v: 3.9978473099, f: 'Portal', p: 3, c: 'text-purple-600', geom: { type: 'dodeca', color: '#a855f7' } },
@@ -3408,7 +3408,10 @@
         const LATEX_MAP = {
             'Axioma':         '\\text{Axioma}',
             'PHI_FORMULA':    '\\dfrac{1 + \\sqrt{5}}{2}',
-            'PI_FORMULA':     '\\text{Constante circular} \\ C = 2\\pi r',
+            'PI_FORMULA':     '\\text{Constante circular} \\quad C = 2\\pi r',
+            'PROTON_F':       '\\dfrac{0.760}{\\beta} = \\dfrac{\\Omega_{d}/10}{\\beta}',
+            'ELECTRON_F':     '0.334 + \\dfrac{0.286}{19}',
+            'NEUTRO_F':       '\\Omega_{d} - \\dfrac{0.286}{2}',
             'Anclaje':        '\\text{Anclaje}',
             'Salto':          '\\text{Salto}',
             'Espejo':         '\\text{Espejo}',
