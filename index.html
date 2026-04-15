@@ -1002,10 +1002,13 @@
                 // No math block needed as it's integrated above, or can be used for summary
                 math = `<div class="bg-stone-50 dark:bg-stone-900/50 p-4 rounded-lg flex flex-col gap-2 text-xs font-mono">
                             <div class="flex justify-between items-center bg-white dark:bg-stone-800 p-2 rounded shadow-sm border border-stone-100 dark:border-stone-700">
-                                <span class="text-stone-500">BASE OCULTA (Empuje)</span>
-                                <span class="font-bold text-stone-800 dark:text-stone-200">MIKA(${C.MIKA.toFixed(3)}) + PI(${C.PI.toFixed(3)}) = ${fmtIrreg(C.MIKAEL_V)}</span>
+                                <span class="text-stone-500 font-bold">MIKÆL_V = Φ + π + KRYSTOS_V</span>
+                                <span class="font-bold text-amber-600">${fmtIrreg(C.MIKAEL_V)}</span>
                             </div>
-                            <div class="text-center text-[10px] text-stone-400 pt-1">Este registro anula cualquier simplificación superficial.</div>
+                            <div class="flex justify-between items-center bg-stone-50 dark:bg-stone-900 p-2 rounded text-[10px] text-stone-500">
+                                <span>= PHI(${C.PHI.toFixed(6)}) + PI(${C.PI.toFixed(6)}) + KRYSTOS_V(${C.KRYSTOS.toFixed(6)})</span>
+                            </div>
+                            <div class="text-center text-[10px] text-stone-400 pt-1">Fórmula primaria. <span class="italic">Nota: MIKA + π es la ruta del soberano MIKAEL (4ª Soberanía).</span></div>
                         </div>`;
 
                 vizL = `<canvas id="chartHubble"></canvas>`;
@@ -1399,7 +1402,7 @@
                                          <span>π + PYROS = <strong>9.51925328464</strong></span>
                                      </div>
                                      <div class="flex justify-between items-center text-cyan-600 dark:text-cyan-400">
-                                         <span>KRYSTOS-V (Cristal/Virtud):</span>
+                                         <span>KRYSTOS_V (Cristal/Virtud):</span>
                                          <span>Φ + π + ΩDNAV = <strong>9.51925328464</strong></span>
                                      </div>
                                 </div>
@@ -2011,7 +2014,7 @@
                 opts.scales.y.min = 0;
                 opts.plugins.tooltip.callbacks = {
                     label: ctx => {
-                        const notes = ['(Φ+π)/2 — Frecuencia base', 'Φ+BIAL — Campo personal', 'π+KAL — Constante vital', 'π+PYROS = Φ+π+Ω — Identidad química', 'Φ+π+KRYSTOS — Cima soberana'];
+                        const notes = ['(Φ+π)/2 — Frecuencia base', 'Φ+BIAL — Campo personal', 'π+KAL — Constante vital', 'π+PYROS = Φ+π+Ω — Identidad química', 'Φ+π+KRYSTOS_V — Cima soberana'];
                         return ` ${ctx.parsed.y.toFixed(6)} — ${notes[ctx.dataIndex]}`;
                     }
                 };
@@ -2019,7 +2022,7 @@
             else if (id === 'res5') {
                 // Medicina: frecuencias biológicas SSEE
                 data = {
-                    labels: ['BIAL\n(Pulso)', 'AURA\n(Campo)', 'SOLAR\n(Vitalidad)', 'VITA\n(ADN)', 'KRYSTOS\n(Cristal)'],
+                    labels: ['BIAL\n(Pulso)', 'AURA\n(Campo)', 'SOLAR\n(Vitalidad)', 'VITA\n(ADN)', 'KRYSTOS_V\n(Cristal)'],
                     datasets: [{
                         data: [C.BIAL, C.AURA, C.SOLAR, C.VITA, C.KRYSTOS],
                         backgroundColor: ['#fcd34d', '#6ee7b7', '#fbbf24', '#34d399', '#38bdf8'],
@@ -2296,7 +2299,7 @@
                 data = { labels: ['Pensamiento', 'Aura', 'Luz Visible'], datasets: [{ data: [-3, 0.399, 0.400], borderColor: '#9333ea', backgroundColor: 'rgba(147, 51, 234, 0.1)', fill: true }] };
             }
             else if (id === 'res4') {
-                data = { labels: ['IGNIS', 'KRYSTOS'], datasets: [{ data: [C.IGNIS, C.KRYSTOS], backgroundColor: ['#f43f5e', '#0ea5e9'], borderRadius: 4 }] };
+                data = { labels: ['IGNIS', 'KRYSTOS_V'], datasets: [{ data: [C.IGNIS, C.KRYSTOS], backgroundColor: ['#f43f5e', '#0ea5e9'], borderRadius: 4 }] };
                 opts.scales.y.min = 9; opts.scales.y.max = 10;
             }
             else if (id === 'res5') {
@@ -2802,7 +2805,7 @@
                 ctx.fillStyle = '#fff';
                 ctx.textAlign = 'center';
                 ctx.shadowBlur = 0;
-                ctx.fillText('KRYSTOS (Orden)', krysX, krysY + 70);
+                ctx.fillText('KRYSTOS_V (Orden)', krysX, krysY + 70);
 
                 // --- BOND (Center) ---
                 const bondPulse = (Math.sin(time * 5) + 1) * 0.5;
@@ -3389,7 +3392,7 @@
 
         // IRREGULAR VIZ (NEW)
         const IRREG_DATA = [
-            { id: 'PHI', l: 'Raíz', s: 'Φ', eq: 'PHI_FORMULA', v: 1.618033988749895, f: 'Intención', p: 1, c: 'text-sky-500', geom: { type: 'spiral', color: '#0ea5e9' } },
+            { id: 'PHI', l: 'PHI', s: 'Φ', eq: 'PHI_FORMULA', v: 1.618033988749895, f: 'Intención', p: 1, c: 'text-sky-500', geom: { type: 'spiral', color: '#0ea5e9' } },
             { id: 'MIRA', l: 'MIRA', s: 'Mr', eq: 'AURA/2', v: 1.9989236549, f: 'Reflejo', p: 1, c: 'text-indigo-500', geom: { type: 'lens', color: '#6366f1' } },
             { id: 'BUFFER', l: 'BUFFER', s: 'Δ', eq: 'Mk-Tr', v: 2.2853379972, f: 'Paz', p: 1, c: 'text-teal-500', geom: { type: 'shield', color: '#14b8a6' } },
             { id: 'BIAL', l: 'BIAL', s: 'β', eq: '(Φ+π)/2', v: 2.3798133211, f: 'Calor', p: 1, c: 'text-rose-600', geom: { type: 'sphere', color: '#e11d48' } },
@@ -3399,7 +3402,7 @@
             { id: 'ELECTRON', l: 'ELECTRON', s: 'e-', eq: 'ELECTRON_F', v: 0.349, f: 'Energía', p: 3, c: 'text-blue-500', geom: { type: 'sphere', color: '#3b82f6' } },
             { id: 'NEUTRO', l: 'NEUTRO', s: 'N0', eq: 'NEUTRO_F', v: 0.333, f: 'Sustento', p: 3, c: 'text-stone-400', geom: { type: 'sphere', color: '#a8a29e' } },
 
-            { id: 'PI', l: 'Raíz', s: 'π', eq: 'PI_FORMULA', v: 3.141592653589793, f: 'Estructura', p: 3, c: 'text-stone-500', geom: { type: 'circle', color: '#78716c' } },
+            { id: 'PI', l: 'PI', s: 'π', eq: 'PI_FORMULA', v: 3.141592653589793, f: 'Estructura', p: 3, c: 'text-stone-500', geom: { type: 'circle', color: '#78716c' } },
             { id: 'AURA', l: 'AURA', s: 'Au', eq: 'PHI+BIAL', v: 3.9978473099, f: 'Portal', p: 3, c: 'text-purple-600', geom: { type: 'dodeca', color: '#a855f7' } },
 
             { id: 'OMEGA', l: 'ΩDNAV', s: 'Ω', eq: 'PI+PHI', v: 4.759626642339688, f: 'Vida Base', p: 6, c: 'text-emerald-600', geom: { type: 'cube', color: '#10b981' } },
@@ -3411,7 +3414,7 @@
 
             { id: 'VITA', l: 'VITA', s: 'Vt', eq: 'PI+KAL', v: 8.6629986283, f: 'Biología', p: 9, c: 'text-emerald-500', geom: { type: 'dodeca', color: '#10b981' } },
             { id: 'IGNIS', l: 'IGNIS', s: 'Ig', eq: 'PI+PYROS', v: 9.5192532846, f: 'Fricción', p: 9, c: 'text-rose-600', geom: { type: 'spiral', color: '#be123c' } },
-            { id: 'KRYSTOS', l: 'KRYSTOS', s: 'Kr', eq: 'OMEGA*2', v: 9.519253284679376, f: 'Cristal', p: 9, c: 'text-cyan-500', geom: { type: 'grid', color: '#06b6d4' } },
+            { id: 'KRYSTOS', l: 'KRYSTOS_V', s: 'Kr', eq: 'OMEGA*2', v: 9.519253284679376, f: 'Cristal', p: 9, c: 'text-cyan-500', geom: { type: 'grid', color: '#06b6d4' } },
             { id: 'PHITA', l: 'PHITA', s: 'φt', eq: 'VITA+PHI', v: 10.281032617099326, f: 'Belleza', p: 9, c: 'text-indigo-600', geom: { type: 'flower', color: '#4f46e5' } },
             { id: 'MIKA', l: 'MIKA', s: 'Mk', eq: 'Kr+PHI', v: 11.1372872734, f: 'Verdad', p: 9, c: 'text-violet-600', geom: { type: 'merkaba', color: '#7c3aed' } },
             { id: 'TRIAL', l: 'TRIAL', s: 'Tr', eq: 'AURA*3', v: 11.9935419296, f: 'Materia', p: 9, c: 'text-stone-600', geom: { type: 'grid', color: '#57534e' } },
@@ -3590,7 +3593,7 @@
             'Φ+π+Ω':          '2\\,\\Omega_{DNAV}',
             'OMEGA*2':        '2\\,\\Omega_{DNAV}',
             'Kr+PHI':         'K_r + \\Phi',
-            'Φ+π+Kr':         '\\Phi + \\pi + \\text{KRYSTOS}',
+            'Φ+π+Kr':         '\\Phi + \\pi + \\text{KRYSTOS\\_V}',
             'VITA+PHI':       '\\text{VITA} + \\Phi',
             'BIAL+VITA':      '\\beta + \\text{VITA}',
             'Mk-Tr':          '\\text{MIKAEL\\_V} - \\text{TRIAL}',
@@ -3608,7 +3611,7 @@
             '(PHI + PI) / 2':     '\\dfrac{\\Phi + \\pi}{2}',
             'BIAL + PI':          '\\beta + \\pi',
             'AURA × 3':           '\\text{AURA} \\times 3',
-            'PHI + PI + KRYSTOS': '\\Phi + \\pi + \\text{KRYSTOS}',
+            'PHI + PI + KRYSTOS': '\\Phi + \\pi + \\text{KRYSTOS\\_V}',
         };
 
         function renderMath(eq) {
