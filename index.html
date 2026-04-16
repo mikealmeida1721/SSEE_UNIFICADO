@@ -221,36 +221,81 @@
 
             // SPECIAL YGG LAYOUT (For registers with detailed steps)
             if (reg.steps) {
-                // Render steps as table rows
-                const stepsHtml = reg.steps.map(s => `
-                    <div class="flex justify-between py-1 border-b border-stone-800">
-                        <span class="text-stone-400 font-mono text-[10px]">${s.op ? s.op + ' =' : ''}</span>
-                        <div class="flex gap-2">
-                            <span class="text-stone-500 font-mono text-[10px] uppercase">${s.name}</span>
-                            <span class="font-bold font-mono text-xs ${reg.c}">${typeof s.val === 'number' ? fmtIrreg(s.val) : s.val}</span>
-                        </div>
-                    </div>
-                `).join('');
+                // Identify result rows (Gap, Omega, Residuo) to highlight separately
+                const KEY_RESULTS = ['Gap', 'Omega', 'Residuo'];
+                const mainSteps = reg.steps.filter(s => !KEY_RESULTS.includes(s.name));
+                const resultSteps = reg.steps.filter(s => KEY_RESULTS.includes(s.name));
+
+                const renderStep = (s, i, isResult) => {
+                    const valStr = typeof s.val === 'number' ? fmtIrreg(s.val) : s.val;
+                    if (isResult) {
+                        return `
+                        <div class="flex items-center justify-between py-2 px-3 rounded mb-1 bg-stone-900/60 border border-stone-700">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[9px] font-bold text-stone-500 uppercase tracking-widest w-14">${s.name}</span>
+                                <span class="text-stone-500 font-mono text-[10px]">${s.op ? '= ' + s.op : ''}</span>
+                            </div>
+                            <span class="font-bold font-mono text-sm ${reg.c}">${valStr}</span>
+                        </div>`;
+                    }
+                    return `
+                    <div class="flex items-center gap-2 py-1.5 border-b border-stone-800/60">
+                        <span class="text-[9px] font-mono text-stone-600 w-4 shrink-0">${String(i+1).padStart(2,'0')}</span>
+                        <span class="font-bold font-mono text-[11px] ${reg.c} w-20 shrink-0">${s.name}</span>
+                        <span class="text-stone-500 text-[9px] grow">${s.op ? '= ' + s.op : ''}</span>
+                        <span class="font-bold font-mono text-xs text-white shrink-0">${valStr}</span>
+                    </div>`;
+                };
+
+                const stepsHtml   = mainSteps.map((s, i) => renderStep(s, i, false)).join('');
+                const resultsHtml = resultSteps.map(s => renderStep(s, 0, true)).join('');
+
+                // Counter badge: which register out of 8
+                const yggStart = 32;
+                const yggEnd   = 39;
+                const pos = currentRegIndex - yggStart + 1;
+                const total = yggEnd - yggStart + 1;
 
                 el.innerHTML = `
-                    <div class="h-full overflow-y-auto custom-scroll p-4">
-                        <div class="border-l-2 border-amber-500 pl-4 mb-4">
-                            <div class="text-[10px] font-bold text-stone-500 uppercase tracking-widest">${reg.id}</div>
-                            <h2 class="text-2xl font-bold ${reg.c} font-serif">${reg.l}</h2>
-                            <div class="text-xs text-stone-400">${reg.f}</div>
+                    <div class="h-full overflow-y-auto custom-scroll p-3 flex flex-col gap-3">
+
+                        <!-- HEADER -->
+                        <div class="flex items-start justify-between">
+                            <div class="border-l-2 pl-3" style="border-color:${reg.geom.color}">
+                                <div class="text-[9px] font-bold text-stone-500 uppercase tracking-widest">${reg.id}</div>
+                                <h2 class="text-xl font-bold ${reg.c} font-mono leading-tight">${reg.l}</h2>
+                                <div class="text-[10px] text-stone-400 mt-0.5">${reg.f}</div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-[9px] text-stone-600">${pos} / ${total}</div>
+                                <div class="text-[9px] text-stone-500 font-mono">p-${reg.p}</div>
+                                <div class="text-[10px] font-bold font-mono mt-1" style="color:${reg.geom.color}">${reg.s}</div>
+                            </div>
                         </div>
 
-                        <div class="mb-4">
-                            <div class="text-[10px] font-bold text-stone-300 mb-2 uppercase tracking-wider">Secuencia Lógica</div>
-                            <div class="bg-stone-900/50 p-3 rounded border border-stone-800">
+                        <!-- SECUENCIA -->
+                        <div>
+                            <div class="text-[9px] font-bold text-stone-500 uppercase tracking-widest mb-1.5">— Secuencia de Derivación</div>
+                            <div class="bg-stone-950/50 rounded border border-stone-800 px-2 py-1">
                                 ${stepsHtml}
                             </div>
                         </div>
 
-                        <div class="flex justify-between items-center bg-black/40 p-3 rounded border border-amber-500/20">
-                            <span class="text-amber-600 text-[10px] font-bold uppercase">Ygg Value</span>
-                            <span class="text-xl font-bold text-white font-mono">${fmtIrreg(reg.v)}</span>
+                        ${resultsHtml ? `
+                        <!-- RESULTADOS CLAVE -->
+                        <div>
+                            <div class="text-[9px] font-bold text-stone-500 uppercase tracking-widest mb-1.5">— Resultados</div>
+                            ${resultsHtml}
+                        </div>` : ''}
+
+                        <!-- YGG VALUE -->
+                        <div class="flex justify-between items-center bg-black/50 px-3 py-2 rounded border" style="border-color:${reg.geom.color}40">
+                            <span class="text-[9px] font-bold uppercase tracking-widest text-stone-500">Valor Ygg</span>
+                            <span class="text-lg font-bold font-mono" style="color:${reg.geom.color}">${fmtIrreg(reg.v)}</span>
                         </div>
+
+                        <!-- HINT SCROLL -->
+                        <div class="text-center text-[8px] text-stone-700 tracking-widest">↑ ↓ scroll para cambiar registro</div>
                     </div>
                 `;
             }
@@ -528,8 +573,12 @@
             const panel = document.getElementById('register-panel');
             if (panel) {
                 updateRegisterCard();
+                let _wheelLock = false;
                 panel.addEventListener('wheel', (e) => {
                     e.preventDefault();
+                    if (_wheelLock) return;
+                    _wheelLock = true;
+                    setTimeout(() => _wheelLock = false, 350);
                     if (e.deltaY > 0) {
                         currentRegIndex++;
                         if (currentRegIndex > 39) currentRegIndex = 32;
@@ -538,7 +587,7 @@
                         if (currentRegIndex < 32) currentRegIndex = 39;
                     }
                     updateRegisterCard();
-                });
+                }, { passive: false });
                 // Touch swipe support for register panel
                 let _pTouchY = 0;
                 panel.addEventListener('touchstart', (e) => { _pTouchY = e.touches[0].clientY; }, { passive: true });
@@ -551,7 +600,7 @@
                     }
                 }, { passive: true });
                 const term = document.getElementById('terminal-output');
-                if (term) term.innerHTML += '\n>>> CONNECTED TO CORE.\n>>> ACCESSING 9 YGG REGISTERS...';
+                if (term) term.innerHTML += '\n>>> CONNECTED TO CORE.\n>>> ACCESSING 8 YGG REGISTERS...';
             }
 
             container.innerHTML = ''; // Clean slate
