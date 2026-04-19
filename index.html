@@ -132,7 +132,7 @@
         <nav id="main-sidebar"
             onmouseleave="document.getElementById('main-sidebar').classList.add('w-0'); document.getElementById('main-sidebar').classList.remove('w-64')"
             class="absolute md:relative h-full z-40 w-0 overflow-hidden bg-stone-100 dark:bg-stone-950/95 md:dark:bg-stone-950/50 border-r border-stone-200 dark:border-stone-800 flex flex-col py-4 flex-shrink-0 transition-all duration-300 group shadow-2xl md:shadow-none">
-            <div class="flex-grow space-y-1 px-2" id="sidebar-container"></div>
+            <div class="flex-grow space-y-1 px-2 overflow-y-auto" id="sidebar-container"></div>
             <div
                 class="px-4 text-[10px] text-stone-400 font-mono text-center opacity-0 md:opacity-100 group-hover:opacity-100 transition-opacity">
                 V. 5.12.0<br>NÚCLEO ACTIVO</div>
@@ -3673,7 +3673,7 @@
 
         function genIrregRows() {
             const sorted = [...IRREG_DATA].sort((a, b) => a.v - b.v);
-            return sorted.map(r => `<tr onclick="selectIrreg('${r.id}')" class="group cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors ${vizState.selected === r.id ? 'bg-amber-100 dark:bg-amber-900/30' : ''}"><td class="p-3 font-bold ${r.c}">${r.l}</td><td class="p-3 font-mono text-stone-500 hidden md:table-cell">${r.s}</td><td class="p-3 hidden lg:table-cell text-stone-400 text-xs">${renderMath(r.eq)}</td><td class="p-3 text-right font-mono font-bold text-stone-600 text-xs">${fmtIrreg(r.v)}</td><td class="p-3 hidden lg:table-cell text-xs italic text-stone-500">${r.f}</td><td class="p-3 font-mono text-[10px] text-stone-400">p-${r.p}</td></tr>`).join('');
+            return sorted.map(r => `<tr onclick="selectIrreg('${r.id}')" class="group cursor-pointer hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors ${vizState.selected === r.id ? 'bg-amber-100 dark:bg-amber-900/30' : ''}"><td class="p-3 font-bold ${r.c}">${r.l}</td><td class="p-3 font-mono text-stone-500">${r.s}</td><td class="p-3 text-stone-400 text-xs">${renderMath(r.eq)}</td><td class="p-3 text-right font-mono font-bold text-stone-600 text-xs">${fmtIrreg(r.v)}</td><td class="p-3 text-xs italic text-stone-500">${r.f}</td><td class="p-3 font-mono text-[10px] text-stone-400">p-${r.p}</td></tr>`).join('');
         }
 
         let vizState = { mode: 5, selected: null }; // FORCE YGG MODE ON LOAD
