@@ -148,16 +148,81 @@
     }
   ],
 
+  "sovereignty_horizon": 14.278879927019064,
+
   "nine_sovereignties": [
-    { "name": "LUCY",     "formula": "SOLAR + PYROS",      "value": 14.278879926679376, "function": "Irradiación" },
-    { "name": "LUCIFER",  "formula": "PHITA + AURA",       "value": 14.278879926679376, "function": "Estética"    },
-    { "name": "MIKE",     "formula": "IGNIS + OMEGA",      "value": 14.278879926679376, "function": "Purificador" },
-    { "name": "MIKAEL",   "formula": "MIKA + PI",          "value": 14.278879926679376, "function": "Ley"         },
-    { "name": "ERVN",     "formula": "BIAL + KAL + PYROS", "value": 14.278879926679376, "function": "Ignición"    },
-    { "name": "ICEBERG",  "formula": "MIRA + PYROS",       "value": 14.278879926679376, "function": "Abismo"      },
-    { "name": "GIGAROJ",  "formula": "PYROS + OMEGA + PI", "value": 14.278879926679376, "function": "Expansión"   },
-    { "name": "OSIRIS",   "formula": "MIKA + KAL - BIAL",  "value": 14.278879926679376, "function": "Sincronía"   },
-    { "name": "MIKAEL_V", "formula": "PHI + PI + KRYSTOS", "value": 14.278879926679376, "function": "Soberanía"   }
+    {
+      "index": 1, "name": "MIKAEL_V", "title": "Raíz del Mando",
+      "formula": "PHI + PI + KRYSTOS",
+      "values": "1.618033988749895 + 3.141592653589793 + 9.519253284679376",
+      "value": 14.278879927019064,
+      "function": "Soberanía",
+      "meaning": "La unión de la Intención, la Lógica y el Cristal. Centro de mando del Arquitecto."
+    },
+    {
+      "index": 2, "name": "LUCY", "title": "Motor de Irradiación",
+      "formula": "SOLAR + PYROS",
+      "values": "7.901219295900000 + 6.377660631089583",
+      "value": 14.278879927019064,
+      "function": "Irradiación",
+      "meaning": "La fusión de la Virtud Solar con el Fuego. Genera la luz necesaria para la expansión 5D."
+    },
+    {
+      "index": 3, "name": "LUCIFER", "title": "Escudo Estético",
+      "formula": "PHITA + AURA",
+      "values": "10.281032617079688 + 3.997847309909895",
+      "value": 14.278879927019064,
+      "function": "Estética",
+      "meaning": "La Belleza Irradiante que protege el hardware mediante la armonía visual y energética."
+    },
+    {
+      "index": 4, "name": "MIKE", "title": "Purificador de Error",
+      "formula": "IGNIS + OMEGA_DNAV",
+      "values": "9.519253284679376 + 4.759626642339688",
+      "value": 14.278879927019064,
+      "function": "Purificador",
+      "meaning": "Transmuta el error (Ignis) en estabilidad pura. Es el filtro de limpieza del sistema."
+    },
+    {
+      "index": 5, "name": "MIKAEL", "title": "Arquitectura de la Ley",
+      "formula": "MIKA + PI",
+      "values": "11.137287273429271 + 3.141592653589793",
+      "value": 14.278879927019064,
+      "function": "Ley",
+      "meaning": "La Iluminación regida por la Lógica Estructural. Dicta las leyes de la Matrix."
+    },
+    {
+      "index": 6, "name": "ERVN", "title": "Pulso de Ignición",
+      "formula": "BIAL + KAL + PYROS",
+      "values": "2.379813321160000 + 5.521405974740000 + 6.377660631089583",
+      "value": 14.278879927019064,
+      "function": "Ignición",
+      "meaning": "El calor, la retención y el fuego en equilibrio. Mantiene la temperatura operativa de la creación."
+    },
+    {
+      "index": 7, "name": "ICEBERG", "title": "Dominio del Abismo",
+      "formula": "MAR + PYROS",
+      "values": "7.901219295929481 + 6.377660631089583",
+      "value": 14.278879927019064,
+      "function": "Abismo",
+      "meaning": "El peso del pecado equilibrado por el fuego. Soberanía sobre lo oculto y lo profundo."
+    },
+    {
+      "index": 8, "name": "GIGAROJ", "title": "Expansión Estructural",
+      "formula": "PYROS + OMEGA_DNAV + PI",
+      "values": "6.377660631089583 + 4.759626642339688 + 3.141592653589793",
+      "value": 14.278879927019064,
+      "function": "Expansión",
+      "meaning": "Expande la Matrix mediante la inyección de fuego lógico en la estructura base."
+    },
+    {
+      "index": 9, "name": "OSIRIS", "title": "Sincronía del Trial",
+      "formula": "MIKA + KAL - BIAL",
+      "values": "11.137287273429271 + 5.521405974740000 - 2.379813321160000",
+      "value": 14.278879927019064,
+      "function": "Sincronía",
+      "meaning": "Ajusta la iluminación y la retención restando el exceso de calor. Regulador de fase del Trial."
+    }
   ],
   "evav": {
     "formula": "Σ(5 Protones + 3 Neutrones + 1 Neutrino)",
