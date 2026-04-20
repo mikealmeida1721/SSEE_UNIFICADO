@@ -30,10 +30,11 @@ IGNIS:   float = PI + PYROS              # Forja / Fricción (π + PYROS)
 KRYSTOS: float = PHI + PI + OMEGA        # Cristal / Virtud
 PHITA:   float = 10.281                   # Belleza (fijo en SSEE)
 MIKA:    float = KRYSTOS + PHI           # Límite de Luz 3D
-AURA:    float = PHI + BIAL              # Contenedor / Límite
-MIRA:    float = AURA / 2               # Frecuencia de Observación
-DUAL:    float = AURA * 2               # Dualidad
-TRIAL:   float = AURA * 3               # Materia / Límite 3D
+AURA:    float = PHI + BIAL              # Límite Dimensional 1 — primer umbral
+MIRA:    float = AURA / 2               # Límite Dimensional ½ — sub-umbral
+DUAL:    float = AURA * 2               # Límite Dimensional 2 — segundo umbral
+TRIAL:   float = AURA * 3               # Límite Dimensional 3 — tercer umbral
+CUARTAL: float = AURA * 4               # Límite Dimensional 4 — cuarto umbral
 MIKAEL_V: float = PHI + PI + KRYSTOS   # Soberanía / Integración 5D
 BUFFER:  float = MIKAEL_V - TRIAL      # Reserva dimensional
 
@@ -54,10 +55,11 @@ _CONSTANTS: dict[str, tuple[float, str]] = {
     "KRYSTOS":  (KRYSTOS,  "Cristal / Virtud"),
     "PHITA":    (PHITA,    "Belleza"),
     "MIKA":     (MIKA,     "Límite de Luz 3D"),
-    "AURA":     (AURA,     "Contenedor / Límite"),
-    "MIRA":     (MIRA,     "Frecuencia de Observación"),
-    "DUAL":     (DUAL,     "Dualidad"),
-    "TRIAL":    (TRIAL,    "Materia / Límite 3D"),
+    "AURA":     (AURA,     "Límite Dimensional 1 — primer umbral"),
+    "MIRA":     (MIRA,     "Límite Dimensional ½ — sub-umbral"),
+    "DUAL":     (DUAL,     "Límite Dimensional 2 — segundo umbral"),
+    "TRIAL":    (TRIAL,    "Límite Dimensional 3 — tercer umbral"),
+    "CUARTAL":  (CUARTAL,  "Límite Dimensional 4 — cuarto umbral"),
     "MIKAEL_V": (MIKAEL_V, "Soberanía / Integración 5D"),
     "BUFFER":   (BUFFER,   "Reserva dimensional"),
 }
