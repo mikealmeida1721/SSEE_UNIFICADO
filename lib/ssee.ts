@@ -71,10 +71,12 @@ export const ANMA: number = BIAL + VITA;
 /** Forja Base */
 export const PYROS: number = OMEGA + PHI;
 
-/** Forja / Fricción (π + PYROS) */
+// LEY DE NO AUTO-SUMA: IGNIS y KRYSTOS comparten valor numérico pero son opuestos funcionales.
+// Misma magnitud = equilibrio entre Caos y Orden. No son equivalentes.
+/** Forja / Caos — fuerza disruptiva */
 export const IGNIS: number = PI + PYROS;
 
-/** Cristal / Virtud */
+/** Cristal / Orden — fuerza estructurante */
 export const KRYSTOS: number = PHI + PI + OMEGA;
 
 /** Belleza (fijo en SSEE) */

@@ -26,8 +26,10 @@ MAR:     float = OMEGA + PI               # Marea
 VITA:    float = PI + KAL                 # Biometría / Salud Matemática
 ANMA:    float = BIAL + VITA              # Ánima
 PYROS:   float = OMEGA + PHI             # Forja Base
-IGNIS:   float = PI + PYROS              # Forja / Fricción (π + PYROS)
-KRYSTOS: float = PHI + PI + OMEGA        # Cristal / Virtud
+# LEY DE NO AUTO-SUMA: IGNIS y KRYSTOS comparten valor numérico pero son opuestos funcionales.
+# Misma magnitud = equilibrio entre Caos y Orden en ese punto. No son equivalentes.
+IGNIS:   float = PI + PYROS              # Forja / Caos — fuerza disruptiva
+KRYSTOS: float = PHI + PI + OMEGA        # Cristal / Orden — fuerza estructurante
 PHITA:   float = 10.281                   # Belleza (fijo en SSEE)
 MIKA:    float = KRYSTOS + PHI           # Límite de Luz 3D
 AURA:    float = PHI + BIAL              # Límite Dimensional 1 — primer umbral

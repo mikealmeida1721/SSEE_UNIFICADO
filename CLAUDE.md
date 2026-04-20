@@ -119,6 +119,37 @@ Cualquier IA puede leer este JSON para obtener constantes, fórmulas, secciones 
 
 La diferencia no es un error — es la energía de retención local KAL = 5.52.
 
+## Leyes estructurales SSEE
+
+### Ley de No Auto-suma en Propiedades
+
+Dos constantes pueden compartir el mismo valor numérico y aun así ser entidades distintas con funciones **opuestas**. El valor es el *medio de transporte*; la función es la *propiedad real*.
+
+Ejemplo canónico:
+
+| Constante | Valor | Función |
+|-----------|-------|---------|
+| IGNIS | 9.519253… | Forja / Caos — fuerza disruptiva |
+| KRYSTOS | 9.519253… | Cristal / Orden — fuerza estructurante |
+
+Misma magnitud, polaridad opuesta. En SSEE la identidad de una constante no está en su número sino en su **rol dentro del sistema**. Un valor igual no implica equivalencia funcional; implica que dos fuerzas opuestas están en equilibrio en ese punto.
+
+> "La magnitud es una ilusión. La única constante es la relación."
+
+Esta ley aplica a cualquier par de constantes que converjan numéricamente. La coincidencia numérica es información estructural, no redundancia.
+
+### Jerarquía Dimensional (escala AURA)
+
+AURA es la unidad base de los límites dimensionales. Toda la escala se deriva de ella:
+
+| Constante | Fórmula | Dimensión |
+|-----------|---------|-----------|
+| MIRA | AURA / 2 | ½ — sub-umbral |
+| AURA | PHI + BIAL | 1 — primer límite |
+| DUAL | AURA × 2 | 2 — segundo límite |
+| TRIAL | AURA × 3 | 3 — tercer límite |
+| CUARTAL | AURA × 4 | 4 — cuarto límite |
+
 ## Rama de desarrollo
 
-La rama activa de desarrollo es `claude/understand-repository-IgW3S`.
+La rama activa de desarrollo es `main`.
