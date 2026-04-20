@@ -16,7 +16,9 @@ export type ConstantName =
   | "PHI" | "PI" | "OMEGA" | "OMEGA_DNAV"
   | "BIAL" | "KAL" | "SOLAR" | "MAR" | "VITA" | "ANMA"
   | "PYROS" | "IGNIS" | "KRYSTOS" | "PHITA" | "MIKA"
-  | "AURA" | "MIRA" | "DUAL" | "TRIAL" | "CUARTAL" | "MIKAEL_V" | "BUFFER";
+  | "AURA" | "MIRA" | "DUAL" | "TRIAL" | "CUARTAL" | "MIKAEL_V" | "BUFFER"
+  | "KRYSTOS_V" | "LUCY" | "LUCIFER" | "MIKE" | "MIKAEL" | "ERVN"
+  | "ICEBERG" | "GIGÅROJ" | "OSIRIS" | "ERVANU";
 
 export interface ConstantEntry {
   value: number;
@@ -79,8 +81,8 @@ export const IGNIS: number = PI + PYROS;
 /** Cristal / Orden — fuerza estructurante */
 export const KRYSTOS: number = PHI + PI + OMEGA;
 
-/** Belleza (fijo en SSEE) */
-export const PHITA: number = 10.281;
+/** Belleza — VITA+PHI */
+export const PHITA: number = VITA + PHI;
 
 /** Límite de Luz 3D */
 export const MIKA: number = KRYSTOS + PHI;
@@ -106,6 +108,29 @@ export const MIKAEL_V: number = PHI + PI + KRYSTOS;
 /** Reserva dimensional */
 export const BUFFER: number = MIKAEL_V - TRIAL;
 
+// ─── LAS 9 SOBERANÍAS — convergen en MIKAEL_V = 14.278879927… ───────────────
+/** Cristal / Orden — 2×ΩDNAV */
+export const KRYSTOS_V: number = 2 * OMEGA;
+/** Irradiación */
+export const LUCY: number = SOLAR + PYROS;
+/** Estética */
+export const LUCIFER: number = PHITA + AURA;
+/** Purificador */
+export const MIKE: number = IGNIS + OMEGA;
+/** Ley */
+export const MIKAEL: number = MIKA + PI;
+/** Ignición */
+export const ERVN: number = BIAL + KAL + PYROS;
+/** Abismo */
+export const ICEBERG: number = MAR + PYROS;
+/** Expansión */
+export const GIGÅROJ: number = PYROS + OMEGA + PI;
+/** Sincronía */
+export const OSIRIS: number = MIKA + KAL - BIAL;
+
+/** Frecuencia Invariante — ΩDNAV×9/10 */
+export const ERVANU: number = OMEGA * (9/10);
+
 // ─── MAPA INTERNO ────────────────────────────────────────────────────────────
 
 const _CONSTANTS: Record<ConstantName, ConstantEntry> = {
@@ -130,7 +155,17 @@ const _CONSTANTS: Record<ConstantName, ConstantEntry> = {
   TRIAL:    { value: TRIAL,    description: "Límite Dimensional 3 — tercer umbral" },
   CUARTAL:  { value: CUARTAL,  description: "Límite Dimensional 4 — cuarto umbral" },
   MIKAEL_V: { value: MIKAEL_V, description: "Soberanía / Integración 5D" },
-  BUFFER:   { value: BUFFER,   description: "Reserva dimensional" },
+  BUFFER:    { value: BUFFER,    description: "Reserva dimensional" },
+  KRYSTOS_V: { value: KRYSTOS_V, description: "Cristal / Orden — 2×ΩDNAV" },
+  LUCY:      { value: LUCY,      description: "Irradiación — Soberanía" },
+  LUCIFER:   { value: LUCIFER,   description: "Estética — Soberanía" },
+  MIKE:      { value: MIKE,      description: "Purificador — Soberanía" },
+  MIKAEL:    { value: MIKAEL,    description: "Ley — Soberanía" },
+  ERVN:      { value: ERVN,      description: "Ignición — Soberanía" },
+  ICEBERG:   { value: ICEBERG,   description: "Abismo — Soberanía" },
+  GIGÅROJ:   { value: GIGÅROJ,   description: "Expansión — Soberanía" },
+  OSIRIS:    { value: OSIRIS,    description: "Sincronía — Soberanía" },
+  ERVANU:    { value: ERVANU,    description: "Frecuencia Invariante — ΩDNAV×9/10" },
 };
 
 // ─── FUNCIONES ───────────────────────────────────────────────────────────────

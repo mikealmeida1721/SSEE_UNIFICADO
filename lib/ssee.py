@@ -30,7 +30,7 @@ PYROS:   float = OMEGA + PHI             # Forja Base
 # Misma magnitud = equilibrio entre Caos y Orden en ese punto. No son equivalentes.
 IGNIS:   float = PI + PYROS              # Forja / Caos — fuerza disruptiva
 KRYSTOS: float = PHI + PI + OMEGA        # Cristal / Orden — fuerza estructurante
-PHITA:   float = 10.281                   # Belleza (fijo en SSEE)
+PHITA:   float = VITA + PHI               # Belleza — VITA+PHI
 MIKA:    float = KRYSTOS + PHI           # Límite de Luz 3D
 AURA:    float = PHI + BIAL              # Límite Dimensional 1 — primer umbral
 MIRA:    float = AURA / 2               # Límite Dimensional ½ — sub-umbral
@@ -39,6 +39,21 @@ TRIAL:   float = AURA * 3               # Límite Dimensional 3 — tercer umbra
 CUARTAL: float = AURA * 4               # Límite Dimensional 4 — cuarto umbral
 MIKAEL_V: float = PHI + PI + KRYSTOS   # Soberanía / Integración 5D
 BUFFER:  float = MIKAEL_V - TRIAL      # Reserva dimensional
+
+# ─── LAS 9 SOBERANÍAS — todas convergen en MIKAEL_V = 14.278879927… ─────────
+# Ley de No Auto-suma: mismo valor, fórmulas y funciones distintas.
+KRYSTOS_V: float = 2 * OMEGA             # Cristal / Orden — 2×ΩDNAV
+LUCY:      float = SOLAR + PYROS         # Irradiación
+LUCIFER:   float = PHITA + AURA          # Estética
+MIKE:      float = IGNIS + OMEGA         # Purificador
+MIKAEL:    float = MIKA + PI             # Ley
+ERVN:      float = BIAL + KAL + PYROS   # Ignición
+ICEBERG:   float = MAR + PYROS           # Abismo
+GIGÅROJ:   float = PYROS + OMEGA + PI   # Expansión
+OSIRIS:    float = MIKA + KAL - BIAL    # Sincronía
+
+# ─── ERVANÜ ─────────────────────────────────────────────────────────────────
+ERVANU:    float = OMEGA * (9/10)        # Frecuencia Invariante — ΩDNAV×9/10
 
 # ─── MAPA INTERNO ────────────────────────────────────────────────────────────
 
@@ -64,6 +79,16 @@ _CONSTANTS: dict[str, tuple[float, str]] = {
     "CUARTAL":  (CUARTAL,  "Límite Dimensional 4 — cuarto umbral"),
     "MIKAEL_V": (MIKAEL_V, "Soberanía / Integración 5D"),
     "BUFFER":   (BUFFER,   "Reserva dimensional"),
+    "KRYSTOS_V": (KRYSTOS_V, "Cristal / Orden — 2×ΩDNAV"),
+    "LUCY":     (LUCY,     "Irradiación — Soberanía"),
+    "LUCIFER":  (LUCIFER,  "Estética — Soberanía"),
+    "MIKE":     (MIKE,     "Purificador — Soberanía"),
+    "MIKAEL":   (MIKAEL,   "Ley — Soberanía"),
+    "ERVN":     (ERVN,     "Ignición — Soberanía"),
+    "ICEBERG":  (ICEBERG,  "Abismo — Soberanía"),
+    "GIGÅROJ":  (GIGÅROJ,  "Expansión — Soberanía"),
+    "OSIRIS":   (OSIRIS,   "Sincronía — Soberanía"),
+    "ERVANU":   (ERVANU,   "Frecuencia Invariante — ΩDNAV×9/10"),
 }
 
 # ─── FUNCIONES ───────────────────────────────────────────────────────────────
