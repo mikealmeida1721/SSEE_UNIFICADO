@@ -154,7 +154,7 @@
     { "name": "MIKE",     "formula": "IGNIS + OMEGA",      "value": 14.278879926679376, "function": "Purificador" },
     { "name": "MIKAEL",   "formula": "MIKA + PI",          "value": 14.278879926679376, "function": "Ley"         },
     { "name": "ERVN",     "formula": "BIAL + KAL + PYROS", "value": 14.278879926679376, "function": "Ignición"    },
-    { "name": "ICEBERG",  "formula": "MIRA + PYROS",       "value": 14.278879926679376, "function": "Abismo"      },
+    { "name": "ICEBERG",  "formula": "MAR + PYROS",        "value": 14.278879926679376, "function": "Abismo"      },
     { "name": "GIGAROJ",  "formula": "PYROS + OMEGA + PI", "value": 14.278879926679376, "function": "Expansión"   },
     { "name": "OSIRIS",   "formula": "MIKA + KAL - BIAL",  "value": 14.278879926679376, "function": "Sincronía"   },
     { "name": "MIKAEL_V", "formula": "PHI + PI + KRYSTOS", "value": 14.278879926679376, "function": "Soberanía"   }
