@@ -13,7 +13,7 @@
   "base_constants": [
     { "name": "PHI",   "symbol": "Φ", "value": 1.618033988749895, "formula": "Axioma — Razón áurea",    "description": "Intención / Virtud",   "role": "Sombra Base"   },
     { "name": "PI",    "symbol": "π", "value": 3.141592653589793,  "formula": "Axioma — π",              "description": "Luz / Información",    "role": "Luz"           },
-    { "name": "OMEGA", "symbol": "Ω", "value": 4.759626642,        "formula": "Axioma SSEE — Corrección Vital", "description": "Estabilidad", "role": "Sustento Base" }
+    { "name": "OMEGADNAV", "symbol": "Ω", "value": 4.759626642,        "formula": "PHI+PI", "description": "Estabilidad", "role": "Sustento Base" }
   ],
 
   "derived_constants": [
