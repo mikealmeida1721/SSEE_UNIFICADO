@@ -58,7 +58,9 @@ $n_s = 1-\varphi^{-7} = 0.96556$ ($0.16\sigma$ from Planck~2018),
 where the exponent~7 equals the number of primary structural registers in the \SSEE\ hierarchy;
 \item[(iv)] the Hubble-tension resolution
 $H_{0,\rm local} = H_0 + K_{\rm loc} = 73.48$~km\,s$^{-1}$\,Mpc$^{-1}$
-($0.5\sigma$ from Riess~2022).
+($0.5\sigma$ from Riess~2022; numerical coincidence Type~P — no dimensional
+derivation from first principles exists; reported for consistency with
+the Zenodo register).
 \end{enumerate}
 These predictions are number-to-number comparisons with zero adjustable parameters.
 The same two axioms simultaneously reproduce particle-sector information ratios
@@ -255,7 +257,7 @@ Domain & SSEE formula & SSEE value & Observed & Deviation \\
 \midrule
 \textbf{Cosmology} & & & & \\
 \quad $H_0$ [km/s/Mpc] & $3(\varphi+\pi)^2$ & 67.962 & $67.4\pm0.5$ & $1.1\sigma$ \\
-\quad $H_{0,\rm local}$ [km/s/Mpc] & $3(\varphi+\pi)^2 + K$ & 73.48  & $73.0\pm1.0$ & $0.5\sigma$ \\
+\quad $H_{0,\rm local}$ [km/s/Mpc] & $3(\varphi+\pi)^2 + K$ & 73.48$^{\rm P}$  & $73.0\pm1.0$ & $0.5\sigma$ \\
 \quad $\Omega_b$ & $\frac{100(\pi-\varphi)}{6(\varphi+\pi)^4}$ & 0.0495 & $0.0493$ & $0.4\%$ \\
 \quad $n_s$ (inflation) & $1-\varphi^{-7}$ & 0.96556 & $0.9649\pm0.0042$ & $0.16\sigma$ \\
 \textbf{Particle sector} & & & & \\
@@ -264,6 +266,9 @@ Domain & SSEE formula & SSEE value & Observed & Deviation \\
 \textbf{Hubble tension} & & & & \\
 \quad Fractional correction & $K/H_0 = \frac{\varphi+3\pi}{6(\varphi+\pi)^2}$ & $8.12\%$ & $\approx 8\%$ & — \\
 \bottomrule
+\multicolumn{5}{l}{\footnotesize $^{\rm P}$~Numerical coincidence (Type~P): both $3(\varphi+\pi)^2$ and $K=(\varphi+3\pi)/2$}\\
+\multicolumn{5}{l}{\footnotesize are dimensionless numbers whose sum matches $H_{0,\rm local}$ in km\,s$^{-1}$\,Mpc$^{-1}$;}\\
+\multicolumn{5}{l}{\footnotesize no dimensional derivation from first principles exists. Consistent with Paper~1 policy.}\\
 \end{tabular}
 \end{table}
 
@@ -484,13 +489,16 @@ Planck scale to \SSEE\ vacuum amplitudes; this is deferred to Paper~5.
 \begin{table}[ht]
 \centering
 \caption{\SSEE-ToE input parameters. All ``algebraic'' entries are derived
-from $\varphi$ and $\pi$ alone. The deviation column uses Planck~2018 error bars.}
+from $\varphi$ and $\pi$ alone; Type~P entries are numerical coincidences
+whose dimensionless value matches a physical quantity in specific units
+(no dimensional derivation; see Paper~1, App.~B). The deviation column uses Planck~2018 error bars.}
 \label{tab:params}
 \begin{tabular}{lllll}
 \toprule
 Parameter & SSEE-ToE & Planck 2018 & Deviation & Type \\
 \midrule
-$H_0$ [km/s/Mpc]   & 67.962 & $67.4\pm0.5$        & $1.1\sigma$ & algebraic \\
+$H_0^{\rm alg}$ [km/s/Mpc]     & 67.962 & $67.4\pm0.5$  & $1.1\sigma$ & algebraic (Type~P$^\dagger$) \\
+$H_{0,\rm local}$ [km/s/Mpc]  & 73.48  & $73.0\pm1.0$  & $0.5\sigma$ & algebraic (Type~P$^\dagger$) \\
 $\Omega_b$          & 0.0495 & $0.0493$             & $0.4\%$     & algebraic \\
 $\Omega_b h^2$      & 0.02285& $0.02237\pm0.00015$ & $3.2\sigma$ & algebraic \\
 $\Omega_m$          & 0.3201 & $0.3153\pm0.0073$   & $0.7\sigma$ & algebraic \\
@@ -500,7 +508,10 @@ $n_s$               & 0.96556& $0.9649\pm0.0042$   & $0.16\sigma$& algebraic \\
 $A_s$               & $2.1\times10^{-9}$ & $2.10\times10^{-9}$ & $<0.5\sigma$ & standard \\
 $\tau$              & 0.054  & $0.054\pm0.007$     & $0\sigma$   & standard \\
 \midrule
+\midrule
 \multicolumn{5}{l}{\footnotesize IS = Israel--Stewart modulation by $n_s=1-\varphi^{-7}$; reduces tension from $+2.9\sigma$ (Eckart) to $-0.6\sigma$.}\\
+\multicolumn{5}{l}{\footnotesize $^\dagger$~Type~P: dimensionless combination matches observed value in km\,s$^{-1}$\,Mpc$^{-1}$ units;}\\
+\multicolumn{5}{l}{\footnotesize no dimensional derivation from first principles. Consistent with Paper~1 App.~B policy.}\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -528,8 +539,10 @@ The $\chi^2/N=6.56$ over 83 bins reflects the complete absence of optimisation.}
 \label{sec:hubble_tension}
 % ===========================================================================
 
-The \SSEE\ KAL constant $K = (\varphi+3\pi)/2 = 5.521$ represents the local
-dimensional anchoring energy.  The global and local Hubble constants are:
+The \SSEE\ KAL constant $K = (\varphi+3\pi)/2 = 5.521$ numerically equals
+the observed $H_{0,\rm local}-H_{0,\rm global}$ offset; the physical
+mechanism is not yet derived from first principles (Type~P coincidence,
+consistent with Paper~1).  The global and local Hubble constants are:
 \begin{align}
 H_0^{\rm global} &= 3(\varphi+\pi)^2 = 67.96
   \quad \text{(CMB, this work)} \\
