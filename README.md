@@ -29,10 +29,12 @@ Zenodo DOI: [10.5281/zenodo.19679049](https://doi.org/10.5281/zenodo.19679049) (
 | Ωm | (π−φ)/(π+φ) = 0.3201 | 0.3153 ± 0.0073 | 0.66σ |
 | Ωb h² | (π−φ)/[6(φ+π)⁴] = 0.02260 | 0.02237 ± 0.00015 | 1.5σ |
 | **Ωc h² (IS)** | KAL₀ × Ωb h² × n_s = **0.11926** | 0.1200 ± 0.0012 | **−0.6σ** |
-| δc (SSEE) | δc,EdS × n_s = **1.6284** | — | — |
+| δc (SSEE) | **1.676** (z=0) → **1.686** (z=10): colapso esférico top-hat, DE suave en GR ≈ ΛCDM — el factor ×n_s no se deriva de la dinámica | — | — |
 | Y_p (BBN) | AlterBBN(Ωb h²=0.02260) = **0.2473** | 0.2449 ± 0.0040 | 0.7σ |
 
 *Ωc h² resuelto por derivación Israel-Stewart (IS): KAL₀ × Ωb h² × n_s — reduce la tensión de 3.7σ (Eckart estático) a −0.6σ.*
+
+*Rectificación 2026-09-25 (Ruta 1): el postulado δc_SSEE = δc_EdS × n_s = 1.6284 queda falsificado bajo estos supuestos (DE suave en GR); el cálculo dinámico da 1.67634 (z=0) → 1.68647 (z=10), esencialmente idéntico a ΛCDM.*
 
 ---
 
